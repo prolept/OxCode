@@ -9,13 +9,12 @@ by [Prolept](https://www.prolept.com)
 This extension provides rich language support for [Ox](https://www.doornik.com/ox/). 
 
 
-| Platform       | Status           |
+| Branch       | Status           |
 |---------------|---------------------|
-| Windows          |  [![Build Status windows](https://dev.azure.com/malickfall/OxCode/_apis/build/status/malickf.OxCode-MF?branchName=master&jobName=Windows)](https://dev.azure.com/malickfall/OxCode/_build/latest?definitionId=1&branchName=master)        |
-| Mac OS         |  [![Build Status](https://dev.azure.com/malickfall/OxCode/_apis/build/status/malickf.OxCode-MF?branchName=master&jobName=macOS)](https://dev.azure.com/malickfall/OxCode/_build/latest?definitionId=1&branchName=master)  |
+| Master          | [![Build Status](https://dev.azure.com/prolept/OxCodeProlept/_apis/build/status/prolept.OxCode?branchName=master)](https://dev.azure.com/prolept/OxCodeProlept/_build/latest?definitionId=2&branchName=master)      |
+| Dev         |  [![Build Status](https://dev.azure.com/prolept/OxCodeProlept/_apis/build/status/prolept.OxCode?branchName=dev)](https://dev.azure.com/prolept/OxCodeProlept/_build/latest?definitionId=2&branchName=dev)  |
  
 
-***Please do not distribute***
 
  If you are new to VS Code see [Getting started with Visual Studio Code](https://code.visualstudio.com/docs/introvideos/basics)
 
@@ -148,14 +147,6 @@ This extension contributes the following settings:
 * `oxcode.checkSyntaxOnSave`: If true, check the syntax on save (default : false).
 * `oxcode.completion`: True to enable completion (default : true).
 * `oxcode.signature`: True to enable signature Help (default : true).
-
-## Known Issues
-
- - See Github Issues. 
-
-## To do 
-
-Repository github... 
 
 
 ## Credits 
