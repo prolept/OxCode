@@ -1,216 +1,218 @@
 {
-    "name": "oxcode",
-    "displayName": "OxCode",
-    "description": "Rich Ox language support for Visual Studio CodeEditor",
-    "version": "0.0.18",
-    "icon": "https://raw.githubusercontent.com/prolept/OxCode/dev/icons/icon.png",
-    "publisher": "Prolept",
-    "engines": {
-        "vscode": "^1.33.0"
-    },
-    "license": "See LICENSE in main page",
-    "repository": {
-
-        "type": "git",
-        "url": "https://github.com/prolept/OxCode.git"
-      
-    },
-    "keywords": [
-        "ox",
-        "linter",
-        "grammars"
-    ],
-    "categories": [
-        "Other",
-        "Programming Languages",
-        "Linters"
-    ],
-    "activationEvents": [
-        "onLanguage:ox",
-        "onCommand:ox.RunOxInTerminal",
-        "onCommand:ox.RunOx",
-        "onCommand:ox.CleanBakFiles",
-        "onCommand:ox.CompileOxo",
-        "onCommand:ox.CompileLinkOxo",
-        "onCommand:ox.LinterOx",
-        "onCommand:ox.LinterOxFull",
-        "onCommand:ox.ClearError",
-        "onCommand:ox.CleanUp",
-        "onCommand:ox.KillOx",
-        "onCommand:ox.SavePreprocessed",
-        "onCommand:ox.Help"
-    ],
-    "main": "./out/src/extension",
-    "contributes": {
-        "keybindings": [
-            {
-                "command": "extension.RunOxInTerminal",
-                "key": "ctrl+t",
-                "mac": "cmd+t",
-                "when": "editorTextFocus"
-            },
-            {
-                "command": "extension.RunOx",
-                "key": "ctrl+o",
-                "mac": "cmd+o",
-                "when": "editorTextFocus"
-            }
-        ],
-        "commands": [
-            {
-                "command": "extension.RunOxInTerminal",
-                "title": "OX Run in terminal "
-            },
-            {
-                "command": "extension.OpenWithOxMetrics",
-                "title": "OX Open file with oxmetrics"
-            },
-            {
-                "command": "extension.RunOx",
-                "title": "OX Run"
-            },
-            {
-                "command": "extension.RunOxViaOxRun",
-                "title": "OX OxRun"
-            },
-            {
-                "command": "extension.CleanBakFiles",
-                "title": "OX Clean.bak files"
-            },
-            {
-                "command": "extension.CompileLinkOxo",
-                "title": "OX Compile and Link "
-            },
-            {
-                "command": "extension.CompileOxo",
-                "title": "OX Compile "
-            },
-            {
-                "command": "extension.LinterOx",
-                "title": "OX Lint my code"
-            },
-            {
-                "command": "extension.ClearError",
-                "title": "OX Clear Error  "
-            } ,
-            {
-                "command": "extension.KillOx",
-                "title": "OX Stop"
-            },
-            {
-                "command": "extension.Help",
-                "title": "OX Help"
-            },
-            {
-                "command": "ox.show.commands",
-                "title": "OX: Show All Commands...",
-                "description": "Shows all commands from the Ox extension in the quick pick"
-            }
-        ],
-        "menus": {
-            "editor/context": [
-                {
-                    "when": "editorTextFocus  && resourceLangId == ox",
-                    "command": "extension.RunOx"
-                },
-                {
-                    "when": "editorTextFocus  && resourceLangId == ox",
-                    "command": "extension.Help"
-                },
-                {
-                    "when": "editorTextFocus  && resourceLangId == ox",
-                    "command": "extension.CompileOxo"
-                },
-                {
-                    "when": "editorTextFocus  && resourceLangId == ox",
-                    "command": "extension.KillOx"
-                },
-                {
-                    "when": "editorTextFocus && resourceLangId == ox",
-                    "command": "ox.show.commands"
-                }
-            ]
-            
-        },
-        "languages": [
-            {
-                "id": "ox",
-                "aliases": [
-                    "ox"
-                ],
-                "extensions": [
-                    ".ox",
-                    ".oxh"
-                ],
-                "configuration": "./language-configuration.json"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "ox",
-                "scopeName": "source.ox",
-                "path": "./syntaxes/ox-tmLanguage.xml"
-            }
-        ],
-        "snippets": [
-            {
-                "language": "ox",
-                "path": "./snippets/ox.json"
-            }
-        ],
-        "configuration": {
-            "title": "OxCode",
-            "type": "object",
-            "properties": {
-                "oxcode.oxmetricsFolder": {
-                    "type": "string",
-                    "default": null,
-                    "description": "The path to the oxmetrics folder."
-                },
-                "oxcode.checkSyntaxOnSave": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Check the syntax on save of file."
-                },
-                "oxcode.isDev": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Show details debug information from linter (for development)."
-                },
-                "oxcode.astyleOptions": {
-                    "type": "string",
-                    "default": "",
-                    "description": "Options for cleanup"
-                },
-                "oxcode.completion": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "True to activate code completion"
-                },
-                "oxcode.signature": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "True to activate signature"
-                }
-            }
-        }
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "typescript": "^3.4.5",
-        "vscode": "^1.1.34",
-        "mocha": "^6.1.4",
-        "@types/node": "^12.0.2",
-        "@types/mocha": "^5.2.6"
-    },
-    "dependencies": {
-        "adm-zip": "^0.4.13",
-        "lru-cache": "^5.1.1"
-    }
+	"name": "oxcode",
+	"displayName": "OxCode",
+	"description": "Rich Ox language support for Visual Studio CodeEditor",
+	"version": "0.0.18",
+	"icon": "https://raw.githubusercontent.com/prolept/OxCode/dev/icons/icon.png",
+	"publisher": "Prolept",
+	"engines": {
+		"vscode": "^1.33.0"
+	},
+	"license": "See LICENSE in main page",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/prolept/OxCode.git"
+	},
+	"keywords": [
+		"ox",
+		"linter",
+		"grammars"
+	],
+	"categories": [
+		"Other",
+		"Programming Languages",
+		"Linters"
+	],
+	"activationEvents": [
+		"onLanguage:ox",
+		"onCommand:ox.RunOxInTerminal",
+		"onCommand:ox.RunOx",
+		"onCommand:ox.CleanBakFiles",
+		"onCommand:ox.CompileOxo",
+		"onCommand:ox.CompileLinkOxo",
+		"onCommand:ox.LinterOx",
+		"onCommand:ox.LinterOxFull",
+		"onCommand:ox.ClearError",
+		"onCommand:ox.CleanUp",
+		"onCommand:ox.KillOx",
+		"onCommand:ox.SavePreprocessed",
+		"onCommand:ox.Help"
+	],
+	"main": "./out/src/extension",
+	"contributes": {
+		"keybindings": [
+			{
+				"command": "extension.RunOxInTerminal",
+				"key": "ctrl+t",
+				"mac": "cmd+t",
+				"when": "editorTextFocus"
+			},
+			{
+				"command": "extension.RunOx",
+				"key": "ctrl+o",
+				"mac": "cmd+o",
+				"when": "editorTextFocus"
+			}
+		],
+		"commands": [
+			{
+				"command": "extension.RunOxInTerminal",
+				"title": "OX Run in terminal "
+			},
+			{
+				"command": "extension.OpenWithOxMetrics",
+				"title": "OX Open file with oxmetrics"
+			},
+			{
+				"command": "extension.RunOx",
+				"title": "OX Run"
+			},
+			{
+				"command": "extension.RunOxViaOxRun",
+				"title": "OX OxRun"
+			},
+			{
+				"command": "extension.CleanBakFiles",
+				"title": "OX Clean.bak files"
+			},
+			{
+				"command": "extension.CompileLinkOxo",
+				"title": "OX Compile and Link "
+			},
+			{
+				"command": "extension.CompileOxo",
+				"title": "OX Compile "
+			},
+			{
+				"command": "extension.LinterOx",
+				"title": "OX Lint my code"
+			},
+			{
+				"command": "extension.ClearError",
+				"title": "OX Clear Error  "
+			},
+			{
+				"command": "extension.KillOx",
+				"title": "OX Stop"
+			},
+			{
+				"command": "extension.Help",
+				"title": "OX Help"
+			},
+			{
+				"command": "ox.show.commands",
+				"title": "OX: Show All Commands...",
+				"description": "Shows all commands from the Ox extension in the quick pick"
+			}
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"when": "editorTextFocus  && resourceLangId == ox",
+					"command": "extension.RunOx"
+				},
+				{
+					"when": "editorTextFocus  && resourceLangId == ox",
+					"command": "extension.Help"
+				},
+				{
+					"when": "editorTextFocus  && resourceLangId == ox",
+					"command": "extension.CompileOxo"
+				},
+				{
+					"when": "editorTextFocus  && resourceLangId == ox",
+					"command": "extension.KillOx"
+				},
+				{
+					"when": "editorTextFocus && resourceLangId == ox",
+					"command": "ox.show.commands"
+				}
+			]
+		},
+		"languages": [
+			{
+				"id": "ox",
+				"aliases": [
+					"ox"
+				],
+				"extensions": [
+					".ox",
+					".oxh"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "ox",
+				"scopeName": "source.ox",
+				"path": "./syntaxes/ox-tmLanguage.xml"
+			}
+		],
+		"snippets": [
+			{
+				"language": "ox",
+				"path": "./snippets/ox.json"
+			}
+		],
+		"configuration": {
+			"title": "OxCode",
+			"type": "object",
+			"properties": {
+				"oxcode.oxmetricsFolder": {
+					"type": "string",
+					"default": null,
+					"description": "The path to the oxmetrics folder."
+				},
+				"oxcode.checkSyntaxOnSave": {
+					"type": "boolean",
+					"default": true,
+					"description": "Check the syntax on save of file."
+				},
+				"oxcode.isDev": {
+					"type": "boolean",
+					"default": false,
+					"description": "Show details debug information from linter (for development)."
+				},
+				"oxcode.astyleOptions": {
+					"type": "string",
+					"default": "",
+					"description": "Options for cleanup"
+				},
+				"oxcode.completion": {
+					"type": "boolean",
+					"default": true,
+					"description": "True to activate code completion"
+				},
+				"oxcode.signature": {
+					"type": "boolean",
+					"default": true,
+					"description": "True to activate signature"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "npm run compile && node ./node_modules/vscode/bin/test"
+	},
+	"devDependencies": {
+		"typescript": "^3.4.5",
+		"vscode": "^1.1.34",
+		"mocha": "^6.1.4",
+		"@types/node": "^12.0.2",
+		"@types/mocha": "^5.2.6"
+	},
+	"dependencies": {
+		"adm-zip": "^0.4.13",
+		"lru-cache": "^5.1.1"
+	},
+	"__metadata": {
+		"id": "dbb12353-bd2a-4cc1-8448-0da71d858113",
+		"publisherDisplayName": "Prolept",
+		"publisherId": "f22fd562-3979-4e1f-88e0-94f8d551a183"
+	}
 }
