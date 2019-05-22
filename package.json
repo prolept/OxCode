@@ -2,7 +2,7 @@
 	"name": "oxcode",
 	"displayName": "OxCode",
 	"description": "Rich Ox language support for Visual Studio CodeEditor",
-	"version": "0.0.18",
+	"version": "0.1.0",
 	"icon": "icons/icon.png",
 	"publisher": "Prolept",
 	"engines": {
