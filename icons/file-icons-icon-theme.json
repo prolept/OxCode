@@ -1,0 +1,15 @@
+
+
+{
+    "iconDefinitions": {
+      "_ox_file": {
+        "iconPath": "./icon.png"
+      }
+    },
+    "languageIds": {
+      "ox": "_ox_file"
+    },
+    "fileExtensions": {
+        "ox": "_ox_file"
+    }
+  }

@@ -1,0 +1,31 @@
+// A launch configuration that compiles the extension and then opens it inside a new window
+{
+    "version": "0.1.0",
+    "configurations": [
+        {
+            "name": "Launch Extension",
+            "type": "extensionHost",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}", //workspaceRoot
+            //first argument beelow can be the folder in the new host ( see https://code.visualstudio.com/docs/extensions/testing-extensions)
+            "args": ["--extensionDevelopmentPath=${workspaceFolder}" ],
+            "stopOnEntry": false,
+            "sourceMaps": true,
+            "trace": "all",  
+            "outFiles": [ "${workspaceFolder}/out/src/**/*.js" ],
+            "preLaunchTask": "npm"
+        },
+        {
+            "name": "Launch Tests",
+            "type": "extensionHost",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "args": ["--extensionDevelopmentPath=${workspaceFolder}", "--extensionTestsPath=${workspaceFolder}/out/test" ],
+            "stopOnEntry": false,
+            "sourceMaps": true,
+            "outFiles": [ "${workspaceFolder}/out/test/**/*.js" ],
+            "preLaunchTask": "npm",
+             
+        }
+    ]
+}

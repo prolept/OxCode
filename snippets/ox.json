@@ -1,0 +1,109 @@
+{
+    
+    
+    "For Loop": {
+    "prefix": "for",
+    "body": [
+        "for (decl ${1:index} = 0; ${1:index} < ${2:max}; ${1:index}++){",
+        "\t${3:index}",
+        "}"
+    ],
+    "description": "For Loop"
+    },
+
+    "Parallel For Loop": {
+        "prefix": "pfor",
+        "body": [
+            "parallel  for (decl ${1:index} = 0; ${1:index} < ${2:max}; ${1:index}++)",
+            "{",
+            "}"
+        ],
+        "description": "For Loop"
+        },
+        
+        "foreach": {
+            "prefix": "fore",
+            "body": [
+                "foreach(${1:expression} in ${2:pass})",
+                "\t${3:pass}"
+               
+            ],
+            "description": "Code snippet for a foreach statement"
+        },
+        "fp": {
+            "prefix": "fp",
+            "body": [
+                "println(\"${1:expression}\",${1:expression});"
+            ],
+            "description": "Code snippet for print statement"
+        },
+    "if": {
+            "prefix": "if",
+            "body": [
+                "if(${1:expression}){",
+                "\t${2:pass}",
+                "}"
+            ],
+            "description": "Code snippet for an if statement"
+        },
+        "if/else": {
+            "prefix": "if/else",
+            "body": [
+                "if(${1:condition}){",
+                "\t${2:pass}",
+                "}else{",
+                "\t${3:pass}",
+                "}"
+            ],
+            "description": "Code snippet for an if statement with else"
+         } ,
+    "lambdafunc": {
+            "prefix": "lambdafunc",
+            "body": [
+                "decl fprobit_max = [=](const vP, const adFunc, const avScore, const amHessian)",
+                "{",
+                "\treturn fProbit(vP, adFunc, mx, my);",
+                "};"
+            ],
+            "description": "Code snippet for a lambda function"
+        
+        
+    },
+
+
+    "main": {
+        "prefix": "main",
+        "body": [
+            "#include <oxstd.oxh>",
+            "",
+            "main()",
+            "{",
+            "${1://enter code}",
+            "}"
+        ],
+        "description": "Code snippet for initialise an ox code"
+    
+    
+},
+    "Switch Loop": {
+        "prefix": "switch",
+        "body": [
+            "switch (${1:i})",
+            "{",
+            "\tcase ${2:i}:" ,
+            "\t\t${3:i}" ,
+            "\t\tbreak;" ,
+            "\tcase ${4:i}:" ,
+            "\t\t${5:i}" ,
+            "\t\tbreak;" ,
+            "\tdefault:" ,
+            "\t\t${6:i}",
+            "\t\tbreak;" ,
+            "}"
+        ],
+        "description": "Switch Loop"
+        }
+
+ 
+
+}
