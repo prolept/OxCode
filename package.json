@@ -3,7 +3,7 @@
 	"displayName": "OxCode",
 	"description": "Rich Ox language support for Visual Studio CodeEditor",
 	"version": "0.0.18",
-	"icon": "https://raw.githubusercontent.com/prolept/OxCode/dev/icons/icon.png",
+	"icon": "icons/icon.png",
 	"publisher": "Prolept",
 	"engines": {
 		"vscode": "^1.33.0"
