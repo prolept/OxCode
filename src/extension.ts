@@ -19,7 +19,7 @@ const OX_MODE: vscode.DocumentFilter = { language: 'ox', scheme: 'file' };
 const OX_SELECTOR: vscode.DocumentSelector = { scheme: 'file', language: 'ox' };// only files from disk
 const codeManager = new CodeManager();
 const extensionPackage = require('../../package.json');
-
+const open = require('open');
 export function activate(context: vscode.ExtensionContext) {
 
     console.log("Ox for Visual Studio - version : ", vscode.version);
@@ -97,7 +97,8 @@ async function RunHelp(): Promise<void> {
     try {
         var oxdocFolder = GetOxDocFolder();
         var url2 = (oxdocFolder + "//oxstd.html");
-        await vscode.env.openExternal(vscode.Uri.parse(url2));
+        open(url2); // for some reasons it didn't work with vscode.env.openExterna(...)
+
     } catch (error) {
         console.log(error);
     }
