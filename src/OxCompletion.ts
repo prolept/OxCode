@@ -75,7 +75,7 @@ export class OxCompletionItemProvider implements vscode.CompletionItemProvider, 
         });
     }
     provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Thenable<vscode.CompletionItem[] | vscode.CompletionList> {//} vscode.ProviderResult<vscode.CompletionItem[] | vscode.CompletionList> {
-        if (document.languageId !== 'ox') {
+        if (document.languageId !== 'Ox') {
             return Promise.resolve(null);
         }
         if (!IsCompletion())

@@ -16,7 +16,7 @@ export class OxSignatureHelpProvider implements SignatureHelpProvider {
 		if (theCall == null) {
 			return Promise.resolve(null);
 		}
-		if (document.languageId !== 'ox') {
+		if (document.languageId !== 'Ox') {
 			return Promise.resolve(null);
 		}
 		if (!IsSignature()) {
