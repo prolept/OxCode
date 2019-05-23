@@ -27,7 +27,7 @@ export function IsCorrectOxFile(): Boolean {
 	var editor = vscode.window.activeTextEditor;
 	if (!editor) return false;
 	var document = editor.document;
-	if (document.languageId !== 'Ox') {
+	if (document.languageId !== 'ox') {
 		return false;
 	}
 	return true;

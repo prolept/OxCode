@@ -27,7 +27,7 @@ export class GoImplementationProvider implements vscode.ImplementationProvider {
 		else {
 			rootFolderPath = root;
 		}
-		if (document.languageId !== 'Ox') {
+		if (document.languageId !== 'ox') {
 			return;
 		}
 		return new Promise<vscode.Definition>((resolve, reject) => {

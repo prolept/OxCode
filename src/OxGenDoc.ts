@@ -93,7 +93,7 @@ export function GenDoc(e: vscode.TextDocumentChangeEvent): void {
     if (e.document.isUntitled) {
         return;
     }
-    if (e.document.languageId !== 'Ox') {
+    if (e.document.languageId !== 'ox') {
         return;
     }
     const activeChar: string = vsCodeApi.ReadCharAtCurrent();

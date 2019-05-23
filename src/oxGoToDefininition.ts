@@ -137,7 +137,7 @@ export default class GoDefinitionProvider implements vscode.DefinitionProvider {
 
 	public provideDefinition(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Thenable<vscode.Location> {
 		// vscode.window.showInformationMessage('TODO DEFINITION : position '+ JSON.stringify(position) +' token' + JSON.stringify(token) );
-		if (document.languageId !== 'Ox') {
+		if (document.languageId !== 'ox') {
 			return null;
 		}
 		return definitionLocation(document, position, token).then(definitionInfo => {

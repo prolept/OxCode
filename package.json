@@ -108,30 +108,30 @@
 		"menus": {
 			"editor/context": [
 				{
-					"when": "editorTextFocus  && resourceLangId == Ox",
+					"when": "editorTextFocus  && resourceLangId == ox",
 					"command": "extension.RunOx"
 				},
 				{
-					"when": "editorTextFocus  && resourceLangId == Ox",
+					"when": "editorTextFocus  && resourceLangId == ox",
 					"command": "extension.Help"
 				},
 				{
-					"when": "editorTextFocus  && resourceLangId == Ox",
+					"when": "editorTextFocus  && resourceLangId == ox",
 					"command": "extension.CompileOxo"
 				},
 				{
-					"when": "editorTextFocus  && resourceLangId == Ox",
+					"when": "editorTextFocus  && resourceLangId == ox",
 					"command": "extension.KillOx"
 				},
 				{
-					"when": "editorTextFocus && resourceLangId == Ox",
+					"when": "editorTextFocus && resourceLangId == ox",
 					"command": "ox.show.commands"
 				}
 			]
 		},
 		"languages": [
 			{
-				"id": "Ox",
+				"id": "ox",
 				"aliases": [
 					"ox"
 				],
@@ -144,14 +144,14 @@
 		],
 		"grammars": [
 			{
-				"language": "Ox",
+				"language": "ox",
 				"scopeName": "source.ox",
 				"path": "./syntaxes/ox-tmLanguage.xml"
 			}
 		],
 		"snippets": [
 			{
-				"language": "Ox",
+				"language": "ox",
 				"path": "./snippets/ox.json"
 			}
 		],

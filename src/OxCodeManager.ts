@@ -440,7 +440,7 @@ export default class CodeManager {
 
     public CheckSyntax(document: vscode.TextDocument) {
 
-        if (document.languageId != "Ox")
+        if (document.languageId != "ox")
             return;
         var oxlPath = GetOxlPath();
         let dir = path.dirname(document.fileName);
