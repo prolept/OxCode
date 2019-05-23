@@ -30,12 +30,12 @@ After installation, the extension setting `oxmetricsFolder` must be set to the f
 
 Example:
 
-- Windows :   `C:\\Program Files\\OxMetrics8\\`
+- Windows :   `C:\Program Files\OxMetrics8`
 - MacOs   :   `/Applications/OxMetrics8/`
 
 You can change the extension setting via : `File` -> `Preferences` -> `Setting` -> `Extension` -> `OxCode`  (see [Setting](https://code.visualstudio.com/docs/getstarted/settings)) 
 
-After that `oxmetricsFolder` has been changed, a reload of Visual Studio Code is needed to complete installation.
+A reload of Visual Studio Code is needed to complete installation.
 
 ## Language Features
  
@@ -46,8 +46,8 @@ After that `oxmetricsFolder` has been changed, a reload of Visual Studio Code is
 
 ### Code Navigation
 
-- Go To (or Peek) Implementation of symbols   (`CTRL+F12`)
-- Go To (or Peek) Definition of symbols  (GO/Peek Definition (`ALT+F12` / `ctrl + Shift + F12`))
+- [Go To (or Peek) Implementation of symbols](#Go-To-Implementation)   
+- [Go To (or Peek) Definition of symbols](#Go-To-Definition)   
 - Go to the symbol in file 
 - Provide symbols to the [outline view](https://code.visualstudio.com/docs/getstarted/userinterface#_outline-view).
 
@@ -94,8 +94,21 @@ To run the linter,  right click an ox file, click `Show All Commands` and `OX Li
 
 ![doc generation](https://www.prolept.com/vscode/unused.gif)
 
-#### Code Snippets
+### Go To Implementation
 
+Go To Implementation (or Peek) is supported for functions (`CTRL+F12` or `CTRL + Shift + F12`).
+
+![Go To Implementation](https://www.prolept.com/vscode/peekimplementation.gif)
+
+
+###  Go To Definition
+
+Go To Definition (or Peek) is supported for functions: 
+
+![Go To Definition](https://www.prolept.com/vscode/peekDefinition.gif)
+
+
+#### Code Snippets
 
 
 | snippet       | statement           |
