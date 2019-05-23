@@ -132,9 +132,7 @@
 		"languages": [
 			{
 				"id": "ox",
-				"aliases": [
-					"ox"
-				],
+				"aliases": ["Ox", "ox"],
 				"extensions": [
 					".ox",
 					".oxh"
