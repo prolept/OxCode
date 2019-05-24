@@ -49,8 +49,8 @@
 			},
 			{
 				"command": "extension.RunOx",
-				"key": "ctrl+o",
-				"mac": "cmd+o",
+				"key": "ctrl+r",
+				"mac": "cmd+r",
 				"when": "editorTextFocus"
 			}
 		],
