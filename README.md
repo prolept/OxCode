@@ -20,7 +20,7 @@ This extension provides rich language support for [Ox](https://www.doornik.com/o
 
 ## Requirements
  
-- [OxMetrics 8](http://www.oxmetrics.net) or above. 
+- [OxMetrics 8](https://www.timberlake.co.uk/software/oxmetrics.html) or above.
 - Windows 64 bits or MacOS
 
 ## Installation
@@ -188,6 +188,8 @@ This extension contributes the following settings:
     - It has not been tested, but it should work.
   
 ### Tips and Tricks
+
+-  If you want to use OxMetrics directly in Excel: see [XlModeler](https://www.timberlake.co.uk/software/xl-modeler.html)
 
 - You can easily exclude *.bak files from the explorer using the following in your user setting: 
 
