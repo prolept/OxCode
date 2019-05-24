@@ -74,7 +74,7 @@
 
 		<dict>
 			<key>match</key>
-			<string>\b(break|case|continue|default|do|else|parallel|for|foreach|in|goto|if|_Pragma|return|switch|while)\b</string>
+			<string>\b(break|case|continue|default|do|else|parallel|for|foreach|in|goto|if|try|return|switch|while|catch|throw)\b</string>
 			<key>name</key>
 			<string>keyword.control.ox</string>
 		</dict>
