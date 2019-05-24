@@ -57,51 +57,51 @@
 		"commands": [
 			{
 				"command": "extension.RunOxInTerminal",
-				"title": "OX Run in terminal "
+				"title": "Ox Run in terminal "
 			},
 			{
 				"command": "extension.OpenWithOxMetrics",
-				"title": "OX Open file with oxmetrics"
+				"title": "Ox Open file with oxmetrics"
 			},
 			{
 				"command": "extension.RunOx",
-				"title": "OX Run"
+				"title": "Ox Run"
 			},
 			{
 				"command": "extension.RunOxViaOxRun",
-				"title": "OX OxRun"
+				"title": "Ox OxRun"
 			},
 			{
 				"command": "extension.CleanBakFiles",
-				"title": "OX Clean.bak files"
+				"title": "Ox Clean.bak files"
 			},
 			{
 				"command": "extension.CompileLinkOxo",
-				"title": "OX Compile and Link "
+				"title": "Ox Compile and Link "
 			},
 			{
 				"command": "extension.CompileOxo",
-				"title": "OX Compile "
+				"title": "Ox Compile "
 			},
 			{
 				"command": "extension.LinterOx",
-				"title": "OX Lint my code"
+				"title": "Ox Lint my code"
 			},
 			{
 				"command": "extension.ClearError",
-				"title": "OX Clear Error  "
+				"title": "Ox Clear Error  "
 			},
 			{
 				"command": "extension.KillOx",
-				"title": "OX Stop"
+				"title": "Ox Stop"
 			},
 			{
 				"command": "extension.Help",
-				"title": "OX Help"
+				"title": "Ox Help"
 			},
 			{
 				"command": "ox.show.commands",
-				"title": "OX: Show All Commands...",
+				"title": "Ox: Show All Commands...",
 				"description": "Shows all commands from the Ox extension in the quick pick"
 			}
 		],
@@ -109,23 +109,23 @@
 			"editor/context": [
 				{
 					"when": "editorTextFocus  && resourceLangId == ox",
-					"command": "extension.RunOx"
+					"command": "extension.RunOx",
+					"group": "OxGroup@1"
 				},
 				{
 					"when": "editorTextFocus  && resourceLangId == ox",
-					"command": "extension.Help"
+					"command": "extension.Help",
+					"group": "OxGroup@2"
 				},
 				{
 					"when": "editorTextFocus  && resourceLangId == ox",
-					"command": "extension.CompileOxo"
-				},
-				{
-					"when": "editorTextFocus  && resourceLangId == ox",
-					"command": "extension.KillOx"
+					"command": "extension.KillOx",
+					"group": "OxGroup@3"
 				},
 				{
 					"when": "editorTextFocus && resourceLangId == ox",
-					"command": "ox.show.commands"
+					"command": "ox.show.commands",
+					"group": "OxGroup@4"
 				}
 			]
 		},
