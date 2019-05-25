@@ -11,7 +11,10 @@
 	"autoClosingPairs": [
 		{ "open": "[", "close": "]" },
 		{ "open": "{", "close": "}" },
-		{ "open": "(", "close": ")" }
+		{ "open": "(", "close": ")" },
+		{ "open": "\"", "close": "\"" , "notIn": ["string"] },
+		{ "open": "/* ", "close": "*/", "notIn": ["string"] }, // open with a space to prevent clash with auto doc generation
+		{ "open": "<", "close": ">", "notIn": ["string", "comment"] }
 	],
 
 	"surroundingPairs": [
@@ -19,7 +22,6 @@
 		["[", "]"],
 		["(", ")"],
 		["\"", "\""],
-		["'", "'"]
 	],
 	// "indentationRules": {
 	// 	"increaseIndentPattern": "^.*\\{[^}\"\\']*$|^.*\\([^\\)\"\\']*$|^\\s*(public|private|protected):\\s*$|^\\s*@(public|private|protected)\\s*$|^\\s*\\{\\}$",
