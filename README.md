@@ -93,14 +93,14 @@ To run the linter,  right click an ox file, click `Show All Commands` and `OX Li
 
 ![doc generation](https://www.prolept.com/vscode/unused.gif)
 
-### Go To Implementation
+#### Go To Implementation
 
 Go To Implementation (or Peek) is supported for functions (`CTRL+F12` or `CTRL + Shift + F12`).
 
 ![Go To Implementation](https://www.prolept.com/vscode/peekimplementation.gif)
 
 
-###  Go To Definition
+####  Go To Definition
 
 Go To Definition (or Peek) is supported for functions: 
 
@@ -170,7 +170,7 @@ This extension contributes the following settings:
 
  
 
-### FAQ 
+## FAQ 
 
  - Does this extension use any online services? 
     - No, this extension is self contained. It doesn't use any telemetry services.
@@ -179,7 +179,7 @@ This extension contributes the following settings:
  - Does this extension support prior version of OxMetrics ? 
     - It has not been tested, but it should work.
   
-### Tips and Tricks
+## Tips and Tricks
 
 - If you want to use OxMetrics directly in Excel: see [XlModeler](https://www.timberlake.co.uk/software/xl-modeler.html)
 
@@ -219,11 +219,11 @@ This extension contributes the following settings:
     ]
 }
 ```
-### Known Issues 
+## Known Issues 
 
  - `Format Document` doesn't work properly when the ox file contains a nested comment. 
 
-### Licence 
+## Licence 
 
 - This extension: The MIT License (MIT) 
 - OxLinter : copyright [Prolept](https://www.prolept.com), this extension relies heavily on a command line executable named `OxLinter` (freeware) that is bundled with this extension.
