@@ -64,7 +64,7 @@ A reload of Visual Studio Code is needed to complete installation.
 
 ### Others
 
-- Command to run/compile a `.ox` code (right click, and click `Ox Run` or `OX Compile`)
+- Command to run a `.ox` code (right click, and click `Ox Run`)
 - Syntax Highlighting
 - A problem matcher is implemented to quickly jump to errors.
 - [Documentation generation (javadoc style)](#Doc-Generation)
@@ -85,9 +85,8 @@ Signature Help is given after a parenthesis `(`.  If the function declaration is
 
 #### Linter
 
-Two basic errors checking are currently implemented : 
+A basic linter rule is currently supported : 
 
-- Check for new/delete.
 - Check for unused local variables.
 
 To run the linter,  right click an ox file, click `Show All Commands` and `OX Lint my code`.
@@ -169,16 +168,9 @@ This extension contributes the following settings:
   - [Artistic Style (Automatic Formatter)](http://astyle.sourceforge.net/astyle.html)
   - [vscode-go](https://github.com/Microsoft/vscode-go)
 
-
-## Licence 
-
-- This extension: The MIT License (MIT) 
-- OxLinter : copyright [Prolept](https://www.prolept.com), this extension relies heavily on a command line executable named `OxLinter` (freeware) that is bundled with this extension.
-
-  *Please note that futures versions of this extension may be commercialized.*
  
 
- ## FAQ 
+### FAQ 
 
  - Does this extension use any online services? 
     - No, this extension is self contained. It doesn't use any telemetry services.
@@ -189,7 +181,7 @@ This extension contributes the following settings:
   
 ### Tips and Tricks
 
--  If you want to use OxMetrics directly in Excel: see [XlModeler](https://www.timberlake.co.uk/software/xl-modeler.html)
+- If you want to use OxMetrics directly in Excel: see [XlModeler](https://www.timberlake.co.uk/software/xl-modeler.html)
 
 - You can easily exclude *.bak files from the explorer using the following in your user setting: 
 
@@ -216,7 +208,6 @@ This extension contributes the following settings:
             "args": [
                 "-i${workspaceFolder}",
                 "-i${fileDirname}",
-                 "-v2",
                 "${file}"
             ],
             "problemMatcher": [],
@@ -228,4 +219,13 @@ This extension contributes the following settings:
     ]
 }
 ```
- 
+### Known Issues 
+
+ - `Format Document` doesn't work properly when the ox file contains a nested comment. 
+
+### Licence 
+
+- This extension: The MIT License (MIT) 
+- OxLinter : copyright [Prolept](https://www.prolept.com), this extension relies heavily on a command line executable named `OxLinter` (freeware) that is bundled with this extension.
+
+  *Please note that futures versions of this extension may be commercialized.*

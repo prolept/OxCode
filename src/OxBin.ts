@@ -92,9 +92,10 @@ function VerifyLinterVersion(): boolean {
         var stdout = cp.execFileSync(oxlinter.FullProgramPath, oxlinter.flags).toString();
         var regex = /(\d+\.)(\d+\.)(\d+)/g;
         var version = stdout.match(regex);
-        if (version[0] != "0.0.17")
+        var correctVersion = "0.0.18";
+        if (version[0] != correctVersion)
             return false;
-        console.log("correct linter version");
+        console.log("correct linter version :" + correctVersion);
         return true;
     } catch (error) {
         console.log(error);

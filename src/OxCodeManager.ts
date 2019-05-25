@@ -167,8 +167,6 @@ export default class CodeManager {
                     let value = diagsCollection[key];
                     let filepath: vscode.Uri;
                     var key2 = key;
-                    // var key2 = key2.replace(/\\\\/g, '\\'); //TODO only for windows ?? IMPORTANT SINON PROBLEM FREEZE QUAND ON CLIQUE SUR PROBLEM
-                    // key2 = key2.replace(/c:\//g, 'c:\\');
                     console.log("key2" + key2);
                     var stats = fs.statSync(key2);
                     if (stats) {

@@ -434,7 +434,7 @@
     		       | (?= \s*[A-Za-z_] ) (?&lt;!&amp;&amp;)       (?&lt;=[*&amp;&gt;])   #  or type modifier before name
     		     )
     		)
-    		(\s*) (?!(while|for|do|if|else|switch|catch|enumerate|return|r?iterate)\s*\()
+    		(\s*) (?!(while|for|do|if|else|switch|try|catch|enumerate|return|r?iterate)\s*\()
     		(
     			(?: [A-Za-z_][A-Za-z0-9_]*+ | :: )++ |                  # actual name
     			(?: (?&lt;=operator) (?: [-*&amp;&lt;&gt;=+!]+ | \(\) | \[\] ) )  # if it is a C++ operator
@@ -589,7 +589,7 @@
 					<key>match</key>
 					<string>(?x) (?: (?= \s )  (?:(?&lt;=else|new|return) | (?&lt;!\w)) (\s+))?
 			(\b
-				(?!(while|for|parallel|do|if|else|switch|catch|enumerate|return|r?iterate)\s*\()(?:(?!NS)[A-Za-z_][A-Za-z0-9_]*+\b | :: )++                  # actual name
+				(?!(while|for|parallel|do|if|else|switch|try|catch|enumerate|return|r?iterate)\s*\()(?:(?!NS)[A-Za-z_][A-Za-z0-9_]*+\b | :: )++                  # actual name
 			)
 			 \s*(\()</string>
 					<key>name</key>
@@ -638,7 +638,7 @@
 		<dict>
 			<key>patterns</key>
 			<array>
-				<dict>
+				<!-- <dict>
 					<key>captures</key>
 					<dict>
 						<key>1</key>
@@ -651,7 +651,7 @@
 					<string>^/\* =(\s*.*?)\s*= \*/$\n?</string>
 					<key>name</key>
 					<string>comment.block.ox</string>
-				</dict>
+				</dict> -->
 				<dict>
 					<key>begin</key>
 					<string>/\*</string>
@@ -663,6 +663,13 @@
 							<string>punctuation.definition.comment.ox</string>
 						</dict>
 					</dict>
+					  <key>patterns</key>
+                    <array>
+                        <dict>
+                            <key>include</key>  <!-- cf  https://macromates.com/manual/en/language_grammars -->
+                            <string>#comments</string>
+                        </dict>
+                    </array>
 					<key>end</key>
 					<string>\*/</string>
 					<key>name</key>
@@ -702,7 +709,7 @@
 					<key>end</key>
 					<string>$\n?</string>
 					<key>name</key>
-					<string>comment.line.double-slash.c++</string>
+					<string>comment.line.double-slash.ox</string>
 					<key>patterns</key>
 					<array>
 						<dict>
