@@ -135,16 +135,16 @@ Documentation for function can automatically be inserted by inserting  `/**` + `
 
 The extension  provides several commands in the Command Palette for working with Ox files:
 
-* `OX Compile and Link` to compile the current ox file and link
-* `OX Compile` to compile the current ox file
-* `OX Stop` to stop the running ox session
-* `OX Clean .bak files` to delete .bak files that are in the current directory
-* `OX Lint my code` to lint the current file
-* `OX Help` to open the official ox help
-* `OX Open file with oxmetrics` to open a file in oxmetrics
-* `OX Run` to run the current file
-* `OX OxRun` to run the current file using OxRun (for graphics)
-* `OX Run in terminal` to run the current file via a terminal
+* `Ox Compile and Link` to compile the current ox file and link
+* `Ox Compile` to compile the current ox file
+* `Ox Stop` to stop the running ox session
+* `Ox Clean .bak files` to delete .bak files that are in the current directory
+* `Ox Lint my code` to lint the current file
+* `Ox Help` to open the official ox help
+* `Ox Open file with oxmetrics` to open a file in oxmetrics
+* `Ox Run` to run the current file
+* `Ox OxRun` to run the current file using OxRun (for graphics)
+* `Ox Run in terminal` to run the current file via a terminal
  
 You can access all of the above commands from the command palette (`Cmd+Shift+P` or `Ctrl+Shift+P`).
 
