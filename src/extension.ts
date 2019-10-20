@@ -12,7 +12,7 @@ import { OxCompletionItemProvider } from './OxCompletion';
 import CodeManager from './OxCodeManager';
 import GoDefinitionProvider from './oxGoToDefininition';
 import { GenDoc } from './OxGenDoc';
-import { getExtensionCommands, IsCorrectOxFile } from './util';
+import { getExtensionCommands, IsCorrectOxFile, FixPathWindows } from './util';
 import { CheckOxMetricsIsOk, GetOxMetricsPath, GetOxDocFolder } from './OxBin';
 import { OxDocumentFormattingEditProvider } from './OxFormat';
 const OX_MODE: vscode.DocumentFilter = { language: 'ox', scheme: 'file' };
@@ -81,7 +81,7 @@ function OpenWithOxMetrics(): void {
         /* In this way oxmetrics is not closed if VS Code quits. (do not work in debug model) */
         var prg = (oxmetrics);
         var spawn = require('child_process').spawn;
-        const subprocess = spawn(prg, [(vscode.window.activeTextEditor.document.fileName)], {
+        const subprocess = spawn(prg, [FixPathWindows(vscode.window.activeTextEditor.document.fileName)], {
             detached: true,
             stdio: 'ignore'
         });
