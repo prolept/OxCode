@@ -3,6 +3,9 @@ All notable changes to the extension will be documented in this file.
  
 
 ## Beta  
+-20/10/2019 - v 0.1.4
+    - Minor: the function "open file with oxmetrics" is fixed for windows platform.
+
 - 25/05/2019 - version 0.1.3
     - Add syntax highlighting support for nested comments and try/catch/throw
     - Add OxLinter support for nested comments (new binary v0.0.17)
