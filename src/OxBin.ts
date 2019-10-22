@@ -238,6 +238,8 @@ export function GetOxLinter(flags?: any[]): ProcessInfo {
             oxlinterFlag.push(element)
         });
     }
+    console.log("oxlinter in GetOxLinter: ", oxlinter);
     var prog: ProcessInfo = { FullProgramPath: oxlinter, flags: oxlinterFlag };
+    console.log("prog in GetOxLinter: ", prog);
     return prog;
 }
