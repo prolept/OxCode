@@ -61,6 +61,9 @@ export function initPaths(oxmetricsFolder: string): boolean {
         else {
             s_oxRunFullPath = path.resolve(oxmetricsFolder, './ox/bin64/OxRun.exe'); // C:\Program Files\OxMetrics8\ox\bin64\oxrun.exe
             s_oxmetricsFullPath = path.resolve(oxmetricsFolder, './bin64/oxmetrics.exe'); //C:\Program Files\OxMetrics8\bin64\oxmetrics.exe
+            console.log("init s_oxRunFullPath :", s_oxRunFullPath);
+            console.log("init s_oxmetricsFullPath :", s_oxmetricsFullPath);
+
         }
 
         let optionsAstyle = " --pad-header --break-blocks  --pad-oper --style=java --delete-empty-lines --unpad-paren ";
@@ -116,7 +119,7 @@ export function CheckOxMetricsIsOk(extensionPath: string): boolean {
         if (IsMac())
             oxlinterPath = path.resolve(pathExtension, "./bin/oxlinter");
         else
-            oxlinterPath = path.resolve(pathExtension, "./bin/win/OxLinter.exe");
+            oxlinterPath = FixPathWindows(path.resolve(pathExtension, "./bin/win/OxLinter.exe"));
 
         if (!fs.existsSync(oxlinterPath) && IsMac()) {
             console.log("try to extract oxlinter.zip");
@@ -143,7 +146,13 @@ export function CheckOxMetricsIsOk(extensionPath: string): boolean {
                 console.log("success extracting oxlinter");
             }
         }
+        console.log("init(0) oxlinterPath :", oxlinterPath);
+        if (!IsMac && !fs.existsSync(oxlinterPath)) {
+            console.log("Problem  oxlinterPath not found...", oxlinterPath);
+            return false;
+        }
         s_linterExeFullPath = oxlinterPath;
+        console.log("init(0) s_linterExeFullPath :", s_linterExeFullPath);
         if (!VerifyLinterVersion()) {
             console.log("invalid linter version");
             vscode.window.showErrorMessage("Incorrect OxLinter version, please re-install the extension");
