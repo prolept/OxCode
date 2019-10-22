@@ -12,6 +12,7 @@ import * as myExtension from '../src/extension';
 import GoDefinitionProvider from '../src/oxGoToDefininition';
 import * as path from 'path';
 import { GoImplementationProvider } from '../src/oxGoToImplementations';
+import { getExtensionCommands, IsCorrectOxFile, FixPathWindows } from '../src/util';
 import { OxDocumentSymbolProvider } from '../src/oxOutline';
 import { OxSignatureHelpProvider } from '../src/OxSignature';
 import { OxCompletionItemProvider } from '../src/OxCompletion';
@@ -37,7 +38,7 @@ suite("Extension Tests", () => {
             originalOxMetricsFolder = vscode.workspace.getConfiguration('oxcode').inspect('oxmetricsFolder').globalValue;
 
             await vscode.workspace.getConfiguration('oxcode').update(('oxmetricsFolder'), undefined, vscode.ConfigurationTarget.Global);
-            await vscode.workspace.getConfiguration('oxcode').update(('oxmetricsFolder'), path.resolve(__dirname, '..', '..', 'test', 'oxmetrics').toString(), vscode.ConfigurationTarget.Global);
+            await vscode.workspace.getConfiguration('oxcode').update(('oxmetricsFolder'), FixPathWindows(path.resolve(__dirname, '..', '..', 'test', 'oxmetrics').toString()), vscode.ConfigurationTarget.Global);
             console.log("global : " + vscode.workspace.getConfiguration('oxcode').inspect('oxmetricsFolder').globalValue);
             const ext = vscode.extensions.getExtension(getExtensionId());
             const apioxcode = await ext.activate();
