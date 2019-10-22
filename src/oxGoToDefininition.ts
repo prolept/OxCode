@@ -63,7 +63,7 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
 				// console.log("definition form cache");
 				return resolve(Cache_definition.get(LruKey));
 			}
-			console.log(oxlinter);
+			console.log(" oxlinter path :", oxlinter);
 			if (!path.isAbsolute(oxlinter.FullProgramPath)) {
 				console.log("not an absolute path " + oxlinter.FullProgramPath);
 				return reject();

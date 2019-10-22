@@ -37,7 +37,7 @@ suite("Extension Tests", () => {
             originalOxMetricsFolder = vscode.workspace.getConfiguration('oxcode').inspect('oxmetricsFolder').globalValue;
 
             await vscode.workspace.getConfiguration('oxcode').update(('oxmetricsFolder'), undefined, vscode.ConfigurationTarget.Global);
-            await vscode.workspace.getConfiguration('oxcode').update(('oxmetricsFolder'), path.resolve(__dirname, '..', '..', 'test', 'oxmetrics'), vscode.ConfigurationTarget.Global);
+            await vscode.workspace.getConfiguration('oxcode').update(('oxmetricsFolder'), path.resolve(__dirname, '..', '..', 'test', 'oxmetrics').toString(), vscode.ConfigurationTarget.Global);
             console.log("global : " + vscode.workspace.getConfiguration('oxcode').inspect('oxmetricsFolder').globalValue);
             const ext = vscode.extensions.getExtension(getExtensionId());
             const apioxcode = await ext.activate();
