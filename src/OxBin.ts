@@ -226,7 +226,7 @@ export function IsCompletion(): boolean {
 export function GetOxLinter(flags?: any[]): ProcessInfo {
     var AddinConfig = vscode.workspace.getConfiguration('oxcode');
     var IsInDevModel = AddinConfig['isDev'];
-    var oxlinter = s_linterExeFullPath;
+    let oxlinter: string = s_linterExeFullPath;
     let oxlinterFlag = [];
     s_defaultIncludeFolder.forEach(element => {
         oxlinterFlag.push("--include=" + quoteFileName(element));
