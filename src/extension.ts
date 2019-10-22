@@ -69,6 +69,8 @@ export function activate(context: vscode.ExtensionContext) {
             }
         });
     }));
+
+    console.log('OK activate extension [789]')
 }
 
 function OpenWithOxMetrics(): void {
