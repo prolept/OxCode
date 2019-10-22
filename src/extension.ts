@@ -125,6 +125,7 @@ function CleanBakFiles(): void {
 }
 // this method is called when your extension is deactivated
 export function deactivate() {
+    console.log("deactivate oxcode");
     if (codeManager != null)
         codeManager.KillRunningOx();
 }
