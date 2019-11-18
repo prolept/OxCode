@@ -201,9 +201,10 @@ export default class CodeManager {
             return;
         var OxlPath = GetOxlPath();
         let dir = path.dirname(vscode.window.activeTextEditor.document.fileName);
-        var command = quoteFileName(OxlPath) + " -i" + quoteFileName(dir) + " " + vscode.window.activeTextEditor.document.fileName;
-        if (this._terminal == null) {
+        var command = quoteFileName(OxlPath) + " -i" + quoteFileName(dir) + " " + quoteFileName(vscode.window.activeTextEditor.document.fileName);
+        if (this._terminal == null || !vscode.window.terminals.find(x => x.processId === this._terminal!.processId)) {
             this._terminal = vscode.window.createTerminal("OxOutput");
+
         }
         this._terminal.show(true);
         this._terminal.sendText(command);
