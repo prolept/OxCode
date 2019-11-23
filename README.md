@@ -2,7 +2,7 @@
 <!---
 //cSpell:ignore pfor, lambdafunc, unpad, oper, endregion, paren, Intelli, oxcode, PROGRA
 -->
-# Ox for Visual Studio Code (Beta Version)
+# Ox for Visual Studio Code
 
 by [Prolept](https://www.prolept.com)
 
@@ -21,7 +21,7 @@ This extension provides rich language support for [Ox](https://www.doornik.com/o
 ## Requirements
  
 - [OxMetrics 8](https://www.timberlake.co.uk/software/oxmetrics.html) or above.
-- Windows 64 bits or MacOS
+- Windows 64 bits, MacOS or Linux 64 bits
 
 ## Installation
 
@@ -32,6 +32,7 @@ Example:
 
 - Windows :   `C:\Program Files\OxMetrics8`
 - MacOs   :   `/Applications/OxMetrics8/`
+- Linux   :   `/usr/share/OxMetrics8/`
 
 You can change the extension setting via : `File` -> `Preferences` -> `Setting` -> `Extension` -> `OxCode`  (see [Setting](https://code.visualstudio.com/docs/getstarted/settings)) 
 
@@ -156,7 +157,7 @@ This extension contributes the following settings:
 
 * `oxcode.astyleOptions`:  see [Astyle options](http://astyle.sourceforge.net/) (default : ` --pad-header --break-blocks  --pad-oper --style=java --delete-empty-lines --unpad-paren`)
 * `oxcode.oxmetricsFolder`: The path to the root folder of oxmetrics .
-* `oxcode.checkSyntaxOnSave`: If true, check the syntax on save (default : false).
+* `oxcode.checkSyntaxOnSave`: If true, check the syntax on save (default : true).
 * `oxcode.completion`: True to enable completion (default : true).
 * `oxcode.signature`: True to enable signature Help (default : true).
 
@@ -167,6 +168,9 @@ This extension contributes the following settings:
   - [Anltr 4 (Parser generator)](https://www.antlr.org/)
   - [Artistic Style (Automatic Formatter)](http://astyle.sourceforge.net/astyle.html)
   - [vscode-go](https://github.com/Microsoft/vscode-go)
+  - [intellij idea community](https://www.jetbrains.com/fr-fr/idea/)
+  - [intellij plugin for ANTLR v4 ](https://github.com/antlr/intellij-plugin-v4)
+  - [cmake](https://cmake.org/)
 
  
 
@@ -175,9 +179,12 @@ This extension contributes the following settings:
  - Does this extension use any online services? 
     - No, this extension is self contained. It doesn't use any telemetry services.
  - How to report a bug  ?
-    - via the github repository. If you can fix it, feel free to send us pull requests.
+    - via the github repository. If you can fix it, feel free to send us pull requests. However, please note that the command-line executable is a closed-source software.
  - Does this extension support prior version of OxMetrics ? 
     - It has not been tested, but it should work.
+ - How to request a feature ?
+    - via the github repository, don't hesitate: all comments are welcome !
+
   
 ## Tips and Tricks
 

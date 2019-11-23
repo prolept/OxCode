@@ -2,12 +2,9 @@
 	"name": "oxcode",
 	"displayName": "OxCode",
 	"description": "Rich Ox language support for Visual Studio Code",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"icon": "icons/icon.png",
 	"publisher": "Prolept",
-	"engines": {
-		"vscode": "^1.33.0"
-	},
 	"license": "See LICENSE in main page",
 	"repository": {
 		"type": "git",
@@ -197,15 +194,21 @@
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
-		"postinstall": "node ./node_modules/vscode/bin/install",
-		"test": "npm run compile && node ./node_modules/vscode/bin/test"
+		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
+		"@types/fs-extra": "^8.0.0",
+		"@types/glob": "^7.1.1",
 		"@types/mocha": "^5.2.6",
 		"@types/node": "^12.0.2",
+		"@types/vscode": "^1.40.0",
+		"glob": "^7.1.4",
 		"mocha": "^6.1.4",
 		"typescript": "^3.4.5",
-		"vscode": "^1.1.36"
+		"vscode-test": "^1.2.3"
+	},
+	"engines": {
+		"vscode": "^1.40.0"
 	},
 	"dependencies": {
 		"adm-zip": "^0.4.13",

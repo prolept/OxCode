@@ -8,50 +8,44 @@ import * as assert from 'assert';
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 import * as vscode from 'vscode';
-import * as myExtension from '../src/extension';
-import GoDefinitionProvider from '../src/oxGoToDefininition';
+// import * as myExtension from '../extension';
+import * as myExtension from '../../src/extension';
+import GoDefinitionProvider from '../../src/oxGoToDefininition';
 import * as path from 'path';
-import { GoImplementationProvider } from '../src/oxGoToImplementations';
-import { getExtensionCommands, IsCorrectOxFile, FixPathWindows } from '../src/util';
-import { OxDocumentSymbolProvider } from '../src/oxOutline';
-import { OxSignatureHelpProvider } from '../src/OxSignature';
-import { OxCompletionItemProvider } from '../src/OxCompletion';
+import { GoImplementationProvider } from '../../src/oxGoToImplementations';
+import { getExtensionCommands, IsCorrectOxFile, FixPathWindows } from '../../src/util';
+import { OxDocumentSymbolProvider } from '../../src/oxOutline';
+import { OxSignatureHelpProvider } from '../../src/OxSignature';
+import { OxCompletionItemProvider } from '../../src/OxCompletion';
 console.log(__dirname);
-const extensionPackage = require('../../package.json');
+//const extensionPackage = require('../../package.json');
 /*
 Tests are made in such a way that no Oxmetrics installation is needed. A fake Oxmetrics folder is given.
 //TODO Gendoc, Formatter 
 */
 // Defines a Mocha test suite to group tests of similar kind together
 function getExtensionId() {
-    // The extensionId is `publisher.name` from package.json // "Prolept.oxcode"
-    const { name = '', publisher = '' } = extensionPackage;
-    return `${publisher}.${name}`;
+    return "Prolept.oxcode";
 }
 
 suite("Extension Tests", () => {
     let originalOxMetricsFolder;
     // let apioxcode, ext;
     async function InitializeExt(goConfig: vscode.WorkspaceConfiguration): Promise<any> {
-
         try {
-
             originalOxMetricsFolder = vscode.workspace.getConfiguration('oxcode').inspect('oxmetricsFolder').globalValue;
-
             await vscode.workspace.getConfiguration('oxcode').update(('oxmetricsFolder'), undefined, vscode.ConfigurationTarget.Global);
-            await vscode.workspace.getConfiguration('oxcode').update(('oxmetricsFolder'), FixPathWindows(path.resolve(__dirname, '..', '..', 'test', 'oxmetrics').toString()), vscode.ConfigurationTarget.Global);
+            await vscode.workspace.getConfiguration('oxcode').update(('oxmetricsFolder'), FixPathWindows(path.resolve(__dirname, '..', '..', '..', 'test', 'oxmetrics').toString()), vscode.ConfigurationTarget.Global);
             console.log("global : " + vscode.workspace.getConfiguration('oxcode').inspect('oxmetricsFolder').globalValue);
             const ext = vscode.extensions.getExtension(getExtensionId());
             const apioxcode = await ext.activate();
-
         } catch (error) {
             console.log(error);
         }
-
     }
     async function testDefinitionProvider(): Promise<any> {
         const provider = new GoDefinitionProvider();
-        var dir = path.join(__dirname, '..', '..', 'test', 'data', 'test.ox'); //path.join(__dirname,"..\\test/data/test.ox")
+        var dir = path.join(__dirname, '..', '..', '..', 'test', 'data', 'test.ox'); //path.join(__dirname,"..\\test/data/test.ox")
         var uri = vscode.Uri.file(dir);
         const position = new vscode.Position(14, 6);
         try {
@@ -60,13 +54,12 @@ suite("Extension Tests", () => {
             assert.equal(definitionInfo.uri.path.toLowerCase(), uri.path.toLowerCase(), `${definitionInfo.uri.path} is not the same as ${uri.path}`);
             assert.equal(definitionInfo.range.start.line, 5);
             assert.equal(definitionInfo.range.start.character, 4);
-
         } catch (err) {
             assert.ok(false, `error in testDefinitionProvider ${err}`);
             return Promise.reject(err);
         }
 
-        dir = path.join(__dirname, '..', '..', 'test', 'data', 'folder space', 'test.ox');
+        dir = path.join(__dirname, '..', '..', '..', 'test', 'data', 'folder space', 'test.ox');
         uri = vscode.Uri.file(dir);
         try {
             const textDocument = await vscode.workspace.openTextDocument(uri);
@@ -74,7 +67,6 @@ suite("Extension Tests", () => {
             assert.equal(definitionInfo.uri.path.toLowerCase(), uri.path.toLowerCase(), `${definitionInfo.uri.path} is not the same as ${uri.path}`);
             assert.equal(definitionInfo.range.start.line, 5);
             assert.equal(definitionInfo.range.start.character, 4);
-
         } catch (err) {
             assert.ok(false, `error in testDefinitionProvider ${err}`);
             return Promise.reject(err);
@@ -83,7 +75,7 @@ suite("Extension Tests", () => {
 
     async function testImplementationProvider(): Promise<any> {
         const provider = new GoImplementationProvider();
-        var dir = path.join(__dirname, '..', '..', 'test', 'data', 'test.ox');
+        var dir = path.join(__dirname, '..', '..', '..', 'test', 'data', 'test.ox');
         var uri = vscode.Uri.file(dir);
         const position = new vscode.Position(14, 6);
         try {
@@ -101,7 +93,7 @@ suite("Extension Tests", () => {
             return Promise.reject(err);
         }
 
-        dir = path.join(__dirname, '..', '..', 'test', 'data', 'folder space', 'test.ox');
+        dir = path.join(__dirname, '..', '..', '..', 'test', 'data', 'folder space', 'test.ox');
         uri = vscode.Uri.file(dir);
         try {
             const textDocument = await vscode.workspace.openTextDocument(uri);
@@ -121,7 +113,7 @@ suite("Extension Tests", () => {
 
     async function testSymbolsProvider(): Promise<any> {
         const provider = new OxDocumentSymbolProvider();
-        var dir = path.join(__dirname, '..', '..', 'test', 'data', 'test.ox');
+        var dir = path.join(__dirname, '..', '..', '..', 'test', 'data', 'test.ox');
         var uri = vscode.Uri.file(dir);
         try {
             const textDocument = await vscode.workspace.openTextDocument(uri);
@@ -137,7 +129,7 @@ suite("Extension Tests", () => {
             return Promise.reject(err);
         }
 
-        dir = path.join(__dirname, '..', '..', 'test', 'data', 'folder space', 'test.ox');
+        dir = path.join(__dirname, '..', '..', '..', 'test', 'data', 'folder space', 'test.ox');
         uri = vscode.Uri.file(dir);
         try {
             const textDocument = await vscode.workspace.openTextDocument(uri);
@@ -155,7 +147,7 @@ suite("Extension Tests", () => {
     }
     async function testCompletionProvider(): Promise<any> {
         const provider = new OxCompletionItemProvider();
-        var dir = path.join(__dirname, '..', '..', 'test', 'data', 'test.ox');
+        var dir = path.join(__dirname, '..', '..', '..', 'test', 'data', 'test.ox');
         var uri = vscode.Uri.file(dir);
         const position = new vscode.Position(14, 3);
         try {
@@ -170,7 +162,7 @@ suite("Extension Tests", () => {
             return Promise.reject(err);
         }
 
-        dir = path.join(__dirname, '..', '..', 'test', 'data', 'folder space', 'test.ox');
+        dir = path.join(__dirname, '..', '..', '..', 'test', 'data', 'folder space', 'test.ox');
         uri = vscode.Uri.file(dir);
         try {
             const textDocument = await vscode.workspace.openTextDocument(uri);
@@ -178,7 +170,6 @@ suite("Extension Tests", () => {
             let symb: vscode.CompletionItem;
             symb = definitionInfo[0];
             assert.equal(symb.label, "Call1", `${symb.label} is not the same as Call1`);
-
         } catch (err) {
             assert.ok(false, `error in testCompletionProvider ${err}`);
             return Promise.reject(err);
@@ -186,7 +177,7 @@ suite("Extension Tests", () => {
     }
     async function testSignatureHelpProvider(): Promise<any> {
         const provider = new OxSignatureHelpProvider();
-        var uri = vscode.Uri.file(path.join(__dirname, '..', '..', 'test', 'data', 'test.ox'));
+        var uri = vscode.Uri.file(path.join(__dirname, '..', '..', '..', 'test', 'data', 'test.ox'));
         try {
             const textDocument = await vscode.workspace.openTextDocument(uri);
             const position = new vscode.Position(14, 9);
@@ -200,7 +191,7 @@ suite("Extension Tests", () => {
             return Promise.reject(err);
         }
 
-        uri = vscode.Uri.file(path.join(__dirname, '..', '..', 'test', 'data', 'folder space', 'test.ox'));
+        uri = vscode.Uri.file(path.join(__dirname, '..', '..', '..', 'test', 'data', 'folder space', 'test.ox'));
         try {
             const textDocument = await vscode.workspace.openTextDocument(uri);
             const position = new vscode.Position(14, 9);

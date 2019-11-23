@@ -9,15 +9,15 @@ import path = require('path');
 import { FixPathWindows } from './util';
 import cp = require('child_process');
 var AdmZip = require('adm-zip');
-// possible node values 'darwin', 'freebsd', 'linux', 'sunos' or 'win32'
-const platform = process.platform;
-let platformDetected: boolean = false;
-let IsMacOS: boolean = false;
+
+const platform = process.platform; // possible node values 'darwin', 'freebsd', 'linux', 'sunos' or 'win32'
 export function IsMac(): Boolean {
-    if (platformDetected) return IsMacOS;
-    IsMacOS = platform == "darwin";
-    platformDetected = true;
-    return IsMacOS;
+    return platform == "darwin";
+    // return IsMacOS;
+}
+export function IsLinux(): Boolean {
+    return platform == "linux";
+    // return bIsLinux;
 }
 export interface ProcessInfo {
     FullProgramPath: string;
@@ -38,6 +38,8 @@ export function initPaths(oxmetricsFolder: string): boolean {
         var oxl;
         if (IsMac())
             oxl = path.resolve(oxmetricsFolder, './ox/bin/oxl'); // "C:\Program Files\OxMetrics8\ox\bin64\oxl.exe"
+        else if (IsLinux())
+            oxl = path.resolve(oxmetricsFolder, './ox/bin64/oxl');
         else
             oxl = path.resolve(oxmetricsFolder, './ox/bin64/oxl.exe'); // "C:\Program Files\OxMetrics8\ox\bin64\oxl.exe"
         s_oxlFullPath = oxl;
@@ -54,18 +56,20 @@ export function initPaths(oxmetricsFolder: string): boolean {
         s_defaultIncludeFolder.push(dirInclude);
         s_defaultIncludeFolder.push(dirOx);
         if (IsMac()) {
-
             s_oxRunFullPath = path.resolve(oxmetricsFolder, './ox/bin/OxRun.app/Contents/MacOS/OxRun'); // 
             s_oxmetricsFullPath = path.resolve(oxmetricsFolder, './OxMetrics.app/Contents/MacOS/OxMetrics'); //
+        }
+        else if (IsLinux()) {
+            s_oxRunFullPath = path.resolve(oxmetricsFolder, './ox/bin64/oxrun'); // 
+            s_oxmetricsFullPath = path.resolve(oxmetricsFolder, './bin64/oxmetrics'); //
         }
         else {
             s_oxRunFullPath = path.resolve(oxmetricsFolder, './ox/bin64/OxRun.exe'); // C:\Program Files\OxMetrics8\ox\bin64\oxrun.exe
             s_oxmetricsFullPath = path.resolve(oxmetricsFolder, './bin64/oxmetrics.exe'); //C:\Program Files\OxMetrics8\bin64\oxmetrics.exe
-            console.log("init s_oxRunFullPath :", s_oxRunFullPath);
-            console.log("init s_oxmetricsFullPath :", s_oxmetricsFullPath);
 
         }
-
+        console.log("init s_oxRunFullPath :", s_oxRunFullPath);
+        console.log("init s_oxmetricsFullPath :", s_oxmetricsFullPath);
         let optionsAstyle = " --pad-header --break-blocks  --pad-oper --style=java --delete-empty-lines --unpad-paren ";
         var oxConfig = vscode.workspace.getConfiguration('oxcode');
         if (!oxConfig.has('astyleOptions') || oxConfig['astyleOptions'] == null || oxConfig['astyleOptions'] == "")
@@ -95,7 +99,7 @@ function VerifyLinterVersion(): boolean {
         var stdout = cp.execFileSync(oxlinter.FullProgramPath, oxlinter.flags).toString();
         var regex = /(\d+\.)(\d+\.)(\d+)/g;
         var version = stdout.match(regex);
-        var correctVersion = "0.0.18";
+        var correctVersion = "0.0.19";
         if (version[0] != correctVersion)
             return false;
         console.log("correct linter version :" + correctVersion);
@@ -118,25 +122,28 @@ export function CheckOxMetricsIsOk(extensionPath: string): boolean {
         let pathExtension = extensionPath;
         if (IsMac())
             oxlinterPath = path.resolve(pathExtension, "./bin/oxlinter");
-        else
+        else if (IsLinux())
+            oxlinterPath = path.resolve(pathExtension, "./bin/linux/OxLinter");
+        else // windows
             oxlinterPath = FixPathWindows(path.resolve(pathExtension, "./bin/win/OxLinter.exe"));
 
-        if (!fs.existsSync(oxlinterPath) && IsMac()) {
+        if (!fs.existsSync(oxlinterPath) && (IsMac() || IsLinux())) {
             console.log("try to extract oxlinter.zip");
             // si le package est fait sur windows ca doit ettre un zip à déziper 
-            var zipfile = path.resolve(pathExtension, "./bin/oxlinter.zip");
+            var spathzip = IsMac() ? "./bin/oxlinter.zip" : "./bin/linux/oxlinterlinux.zip";
+            var zipfile = path.resolve(pathExtension, spathzip);
             if (!fs.existsSync(zipfile)) {
                 console.log("oxlinter.zip does not exist");
                 vscode.window.showErrorMessage("The extension cannot find oxlinter.zip, please re-install the extension.")
                 return false;
             }
-
             console.log("oxlinter.zip exist");
-            var targetdir = path.resolve(pathExtension, "./bin/");
+            var spathbin = IsMac() ? "./bin/" : "./bin/linux/";
+            var targetdir = path.resolve(pathExtension, spathbin);
             var zip = new AdmZip(zipfile);
             zip.extractAllTo(targetdir, true);//synchrone + force replace
             if (!fs.existsSync(oxlinterPath)) {
-                console.log("Mac Os code:[JSQ5]");
+                console.log("Mac/unix Os code:[JSQ5]");
                 vscode.window.showErrorMessage("The extension cannot find oxlinter code:[JSQ5].")
                 return false;
             }

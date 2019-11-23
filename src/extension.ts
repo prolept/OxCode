@@ -22,10 +22,10 @@ const extensionPackage = require('../../package.json');
 const open = require('open');
 export function activate(context: vscode.ExtensionContext) {
 
-    console.log("Ox for Visual Studio - version : ", vscode.version);
-    console.log("vs code version : ", extensionPackage["version"]);
-
-    if (process.platform != "darwin" && process.platform != "win32") {
+    console.log("Ox for Visual Studio - version : ", extensionPackage["version"]);
+    console.log("vscode version : ", vscode.version);
+    console.log("process.platform : ", process.platform);
+    if (process.platform != "darwin" && process.platform != "win32" && process.platform != "linux") {
         console.log("invalid platform");
         vscode.window.showInformationMessage("OxCode does not support the current platform");
         return;

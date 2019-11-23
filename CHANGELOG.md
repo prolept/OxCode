@@ -1,8 +1,12 @@
 # Change Log
 All notable changes to the extension will be documented in this file.
  
-
-## Beta  
+- 23/11/2019 - v 0.1.5 (release)
+    - Add support for Linux 64-bit 
+    - Optimize the performance of OxLinter (v0.0.19)
+    - Fix a bug with the terminal and path on windows. 
+    - Fix Continuous Integration / Azure Ops
+    
 - 20/10/2019 - v 0.1.4
     - Minor: the function "open file with oxmetrics" is fixed for the windows platform.
     - Improve autoclosing
