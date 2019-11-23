@@ -8,6 +8,11 @@ by [Prolept](https://www.prolept.com)
 
 This extension provides rich language support for [Ox](https://www.doornik.com/ox/). 
 
+| Branch       | Status           |
+|---------------|---------------------|
+| Master          |[![Build Status](https://dev.azure.com/prolept/OxCodeProlept/_apis/build/status/prolept.OxCode%20(1)?branchName=master)](https://dev.azure.com/prolept/OxCodeProlept/_build/latest?definitionId=5&branchName=master)     |
+| Dev         | [![Build Status](https://dev.azure.com/prolept/OxCodeProlept/_apis/build/status/prolept.OxCode%20(1)?branchName=dev)](https://dev.azure.com/prolept/OxCodeProlept/_build/latest?definitionId=5&branchName=dev) |
+
 
  If you are new to VS Code see [Getting started with Visual Studio Code](https://code.visualstudio.com/docs/introvideos/basics)
 
