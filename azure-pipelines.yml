@@ -32,6 +32,7 @@ steps:
     echo ">>> Compile vscode-test"
     yarn && yarn compile
     echo ">>> Compiled vscode-test"
+    cd test
     echo ">>> Run sample integration test"
     yarn && yarn compile && yarn test
   displayName: Run Tests
