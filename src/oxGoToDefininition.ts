@@ -32,14 +32,26 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
 		let wordRange = document.getWordRangeAtPosition(position);
 		let lineText = document.lineAt(position.line).text;
 		let word = wordRange ? document.getText(wordRange) : '';
+
 		if (!wordRange || lineText.startsWith('//') || isPositionInString(document, position) || word.match(/^\d+.?\d+$/)) {
 			return resolve(null);
 		}
+
 		if (oxKeywords.indexOf(word) > 0) return resolve(null);
 
 		if (position.isEqual(wordRange.end) && position.isAfter(wordRange.start)) {
 			position = position.translate(0, -1);
 		}
+
+		// search definition only if an open parenthesis exists after the word
+		let posst = new vscode.Position(position.line, wordRange.end.character);
+		let posend = new vscode.Position(position.line, wordRange.end.character + 1);
+		let r = new vscode.Range(posst, posend);
+		if (document.getText(r) != "(") {
+			// console.log("skip def because not ( after, : ", document.getText(r));
+			return resolve(null);
+		}
+
 		try {
 			var oxlinter = GetOxLinter();
 			var inc3 = quoteFileName(GetOxMetricsSrcFolder());
@@ -84,6 +96,7 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
 					return resolve(null);
 				}
 				let results: vscode.Definition = [];
+				console.log('stdout definition:', stdout);
 				for (let decl of decls) {
 					let filepath: vscode.Uri;
 					var LineStart = Number(decl.startLine) - 1;

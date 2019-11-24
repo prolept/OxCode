@@ -13,8 +13,9 @@ import CodeManager from './OxCodeManager';
 import GoDefinitionProvider from './oxGoToDefininition';
 import { GenDoc } from './OxGenDoc';
 import { getExtensionCommands, IsCorrectOxFile, FixPathWindows } from './util';
-import { CheckOxMetricsIsOk, GetOxMetricsPath, GetOxDocFolder } from './OxBin';
+import { CheckOxMetricsIsOk, GetOxMetricsPath, GetOxDocFolder, GetOxIncludeFolders, IsWindows } from './OxBin';
 import { OxDocumentFormattingEditProvider } from './OxFormat';
+import { OxIncludeCompletionItemProvider } from './OxIncludeCompletion';
 const OX_MODE: vscode.DocumentFilter = { language: 'ox', scheme: 'file' };
 const OX_SELECTOR: vscode.DocumentSelector = { scheme: 'file', language: 'ox' };// only files from disk
 const codeManager = new CodeManager();
@@ -36,6 +37,9 @@ export function activate(context: vscode.ExtensionContext) {
         return;
     }
     const SymbolProvider = new OxDocumentSymbolProvider();
+
+    const providerInclude = new OxIncludeCompletionItemProvider(GetOxIncludeFolders());
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider(OX_SELECTOR, providerInclude, "<", '"', "/", "\\"));
     context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(OX_MODE, SymbolProvider));
     context.subscriptions.push(vscode.languages.registerImplementationProvider(OX_SELECTOR, new GoImplementationProvider()));
     context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(OX_SELECTOR, new OxDocumentFormattingEditProvider()));
@@ -57,6 +61,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(workspace.onDidChangeTextDocument(eve => GenDoc(eve)));
     context.subscriptions.push(workspace.onDidSaveTextDocument(document => CheckSyntaxOnSave(document)));
     context.subscriptions.push(workspace.onDidSaveTextDocument(() => codeManager.clearError()));
+    context.subscriptions.push(vscode.commands.registerCommand('extension.ox.GetDebuggerPath', config => { return GetDebuggerPath(); }));
     context.subscriptions.push(vscode.commands.registerCommand('ox.show.commands', () => {
         const extCommands = getExtensionCommands();
         extCommands.push({ command: 'editor.action.goToDeclaration', title: 'Go to Definition' });
@@ -72,7 +77,18 @@ export function activate(context: vscode.ExtensionContext) {
 
     console.log('OK activate extension [789]')
 }
+function GetDebuggerPath(): string {
 
+    if (IsWindows()) {
+        var oxConfig = vscode.workspace.getConfiguration('oxcode');
+        if (oxConfig == null)
+            return "tochange";
+        var oxfolder = oxConfig["oxmetricsFolder"];
+        var path = oxfolder + "\\ox\\bin\\oxli.exe";
+        return path;
+    }
+    return "tochange";
+}
 function OpenWithOxMetrics(): void {
     try {
         if (!IsCorrectOxFile())

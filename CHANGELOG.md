@@ -1,5 +1,11 @@
 # Change Log
 All notable changes to the extension will be documented in this file.
+
+-  05/03/2020 - V 0.1.6
+    - Add suggestion for import/include statement
+    - Add Ox environnement path to search directories (windows)
+    - Improve autocompletion by skipping unnecessary calls to OxLinter
+    - Fix syntax highlighting for include and import keywords
  
 - 23/11/2019 - v 0.1.5 (release)
     - Add support for Linux 64-bit 
