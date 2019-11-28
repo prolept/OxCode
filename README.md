@@ -232,5 +232,3 @@ This extension contributes the following settings:
 
 - This extension: The MIT License (MIT) 
 - OxLinter : copyright [Prolept](https://www.prolept.com), this extension relies heavily on a command line executable named `OxLinter` (freeware) that is bundled with this extension.
-
-  *Please note that futures versions of this extension may be commercialized.*
