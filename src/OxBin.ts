@@ -15,6 +15,10 @@ export function IsMac(): Boolean {
     return platform == "darwin";
     // return IsMacOS;
 }
+export function IsWindows(): Boolean {
+    return platform == "win32";
+    // return IsMacOS;
+}
 export function IsLinux(): Boolean {
     return platform == "linux";
     // return bIsLinux;
@@ -67,6 +71,15 @@ export function initPaths(oxmetricsFolder: string): boolean {
             s_oxRunFullPath = path.resolve(oxmetricsFolder, './ox/bin64/OxRun.exe'); // C:\Program Files\OxMetrics8\ox\bin64\oxrun.exe
             s_oxmetricsFullPath = path.resolve(oxmetricsFolder, './bin64/oxmetrics.exe'); //C:\Program Files\OxMetrics8\bin64\oxmetrics.exe
 
+        }
+        //Add OX8PATHS  environement to linter search paths.
+        if (process.env.OX8PATH) {
+            var paths = process.env.OX8PATH;
+            var asplitted = paths.split(";");
+            asplitted.forEach(element => {
+                s_defaultIncludeFolder.push(element);
+                console.log("add path from env : ", element);
+            });
         }
         console.log("init s_oxRunFullPath :", s_oxRunFullPath);
         console.log("init s_oxmetricsFullPath :", s_oxmetricsFullPath);
@@ -205,6 +218,10 @@ export function GetOxMetricsSrcFolder(): string {
 export function GetOxMetricsPath(): string {
     return s_oxmetricsFullPath;
 }
+export function GetOxIncludeFolders(): string[] {
+    return s_defaultIncludeFolder;
+}
+
 export function quoteFileName(fileName: string, fixPathWindows: boolean = true): string {
     if (fixPathWindows)
         return '\"' + FixPathWindows(fileName) + '\"';

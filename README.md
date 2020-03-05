@@ -42,6 +42,8 @@ A reload of Visual Studio Code is needed to complete installation.
  
 - [Auto Completion of symbols as you type](#Auto-Completion)
 - [Signature Help for functions as you type](#Signature-Help)
+- [Auto completion when typing #include or #import statements](#Include-Autocomplete)
+- [Suggestion for Import/Include](#Suggestion-for-Import/Include)
 
 ### Code Navigation
 
@@ -64,7 +66,7 @@ A reload of Visual Studio Code is needed to complete installation.
 ### Others
 
 - Command to run a `.ox` code (right click, and click `Ox Run`)
-- Syntax Highlighting
+- Syntax Highlighting for `.ox` and `.oxh` files.
 - A problem matcher is implemented to quickly jump to errors.
 - [Documentation generation (javadoc style)](#Doc-Generation)
 - region folding ( via `//region` and `//endregion` )
@@ -77,6 +79,14 @@ A reload of Visual Studio Code is needed to complete installation.
 Autocompletion is provided as you type, after `[.]` (while calling a function ) or `[this.]` (inside a member function).
 
 ![doc generation](https://www.prolept.com/vscode/completion.gif)
+
+#### Include Autocomplete
+
+Provide autocompletion when you type an `#include` or `#import` statement. After typing `<` or `"` to begin the file name, the extension will scan your include directories to provide suggestions. 
+
+#### Suggestion for Import/Include
+
+![Import Suggestion](https://www.prolept.com/vscode/importsuggestion.gif)
 
 #### Signature Help 
 
@@ -166,9 +176,10 @@ This extension contributes the following settings:
   - [Anltr 4 (Parser generator)](https://www.antlr.org/)
   - [Artistic Style (Automatic Formatter)](http://astyle.sourceforge.net/astyle.html)
   - [vscode-go](https://github.com/Microsoft/vscode-go)
-  - [intellij idea community](https://www.jetbrains.com/fr-fr/idea/)
   - [intellij plugin for ANTLR v4 ](https://github.com/antlr/intellij-plugin-v4)
   - [cmake](https://cmake.org/)
+  - Jurgen Doornik and Sébastien Laurent for helpful discussions.
+  
 
  
 
@@ -224,6 +235,9 @@ This extension contributes the following settings:
     ]
 }
 ```
+
+- If you have an issue about ox, you can ask it on [stackoverflow](https://stackoverflow.com/) with the tag "ox". 
+
 ## Known Issues 
 
  - `Format Document` doesn't work properly when the ox file contains a nested comment. 
