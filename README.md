@@ -50,7 +50,7 @@ A reload of Visual Studio Code is needed to complete installation.
 - [Go To (or Peek) Implementation of symbols](#Go-To-Implementation)   
 - [Go To (or Peek) Definition of symbols](#Go-To-Definition)   
 - Go to the symbol in file 
-- Provide symbols to the [outline view](https://code.visualstudio.com/docs/getstarted/userinterface#_outline-view).
+- Provide symbols to the [outline view](#Symbols).
 
 ### Diagnostics
 
@@ -59,7 +59,7 @@ A reload of Visual Studio Code is needed to complete installation.
 
 ### Code Editing
 
-- Formatter : right click -> `Format Document`, thanks to [AStyle](http://astyle.sourceforge.net/astyle.html)
+- [Formatter](#Formatter)
 - [Code Snippets for quick coding](#Code-Snippets)
 
 
@@ -114,6 +114,15 @@ Go To Definition (or Peek) is supported for functions:
 
 ![Go To Definition](https://www.prolept.com/vscode/peekDefinition.gif)
 
+### Symbols 
+
+![Symbols](https://www.prolept.com/vscode/outline.gif)
+
+### Formatter
+
+Formatter : right click -> `Format Document`, thanks to [AStyle](http://astyle.sourceforge.net/astyle.html)
+
+![Formatter](https://www.prolept.com/vscode/formatter.gif)
 
 #### Code Snippets
 
