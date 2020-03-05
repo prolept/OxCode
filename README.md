@@ -43,7 +43,7 @@ A reload of Visual Studio Code is needed to complete installation.
 - [Auto Completion of symbols as you type](#Auto-Completion)
 - [Signature Help for functions as you type](#Signature-Help)
 - [Auto completion when typing #include or #import statements](#Include-Autocomplete)
-- [Suggestion for Import/Include](#Suggestion-for-Import/Include)
+
 
 ### Code Navigation
 
@@ -84,7 +84,6 @@ Autocompletion is provided as you type, after `[.]` (while calling a function ) 
 
 Provide autocompletion when you type an `#include` or `#import` statement. After typing `<` or `"` to begin the file name, the extension will scan your include directories to provide suggestions. 
 
-#### Suggestion for Import/Include
 
 ![Import Suggestion](https://www.prolept.com/vscode/importsuggestion.gif)
 
