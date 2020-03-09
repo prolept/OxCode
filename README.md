@@ -18,7 +18,8 @@ This extension provides rich language support for [Ox](https://www.doornik.com/o
 
 ## Requirements
  
-- [OxMetrics 8](https://www.timberlake.co.uk/software/oxmetrics.html) or above.
+- [OxMetrics 8](https://www.timberlake.co.uk/software/oxmetrics.html) or above. For academic use, a free version of Ox (console) is available from the web site https://www.doornik.com/download.html
+
 - Windows 64 bits, MacOS or Linux 64 bits
 
 ## Installation
@@ -114,11 +115,11 @@ Go To Definition (or Peek) is supported for functions:
 
 ![Go To Definition](https://www.prolept.com/vscode/peekDefinition.gif)
 
-### Symbols 
+#### Symbols 
 
 ![Symbols](https://www.prolept.com/vscode/outline.gif)
 
-### Formatter
+#### Formatter
 
 Formatter : right click -> `Format Document`, thanks to [AStyle](http://astyle.sourceforge.net/astyle.html)
 

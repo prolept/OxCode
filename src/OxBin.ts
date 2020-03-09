@@ -48,9 +48,21 @@ export function initPaths(oxmetricsFolder: string): boolean {
             oxl = path.resolve(oxmetricsFolder, './ox/bin64/oxl.exe'); // "C:\Program Files\OxMetrics8\ox\bin64\oxl.exe"
         s_oxlFullPath = oxl;
         if (!fs.existsSync(s_oxlFullPath)) {
-            console.log("can not find oxl");
-            vscode.window.showErrorMessage("The extension cannot find the ox console in the oxmetrics folder.")
-            return false;
+            var error = true;
+
+            if (IsWindows) {
+                //possible oxl 32 bits only on windows ...
+                oxl = path.resolve(oxmetricsFolder, './ox/bin/oxl.exe');
+                if (fs.existsSync(oxl))
+                    error = false;
+                s_oxlFullPath = oxl;
+            }
+            if (error) {
+                console.log("can not find oxl");
+                vscode.window.showErrorMessage("The extension cannot find the ox console in the oxmetrics folder.")
+                return false;
+            }
+
         }
         var dirOx = path.resolve(oxmetricsFolder, './ox'); //  C:\Program Files\OxMetrics8\ox\
         var dirInclude = path.resolve(dirOx, './include');  //  C:\Program Files\OxMetrics8\ox\include

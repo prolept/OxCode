@@ -2,7 +2,7 @@
 	"name": "oxcode",
 	"displayName": "OxCode",
 	"description": "Rich Ox language support for Visual Studio Code",
-	"version": "0.1.6",
+	"version": "0.1.7",
 	"icon": "icons/icon.png",
 	"publisher": "Prolept",
 	"license": "MIT",
