@@ -18,7 +18,8 @@ This extension provides rich language support for [Ox](https://www.doornik.com/o
 
 ## Requirements
  
-- [OxMetrics 8](https://www.timberlake.co.uk/software/oxmetrics.html) or above.
+- [OxMetrics 8](https://www.timberlake.co.uk/software/oxmetrics.html) or above. For academic use, a free version of Ox (console) is available from [this](https://www.doornik.com/download.html) web site 
+
 - Windows 64 bits, MacOS or Linux 64 bits
 
 ## Installation
@@ -42,13 +43,15 @@ A reload of Visual Studio Code is needed to complete installation.
  
 - [Auto Completion of symbols as you type](#Auto-Completion)
 - [Signature Help for functions as you type](#Signature-Help)
+- [Auto completion when typing #include or #import statements](#Include-Autocomplete)
+
 
 ### Code Navigation
 
 - [Go To (or Peek) Implementation of symbols](#Go-To-Implementation)   
 - [Go To (or Peek) Definition of symbols](#Go-To-Definition)   
 - Go to the symbol in file 
-- Provide symbols to the [outline view](https://code.visualstudio.com/docs/getstarted/userinterface#_outline-view).
+- Provide symbols to the [outline view](#Symbols).
 
 ### Diagnostics
 
@@ -57,14 +60,14 @@ A reload of Visual Studio Code is needed to complete installation.
 
 ### Code Editing
 
-- Formatter : right click -> `Format Document`, thanks to [AStyle](http://astyle.sourceforge.net/astyle.html)
+- [Formatter](#Formatter)
 - [Code Snippets for quick coding](#Code-Snippets)
 
 
 ### Others
 
 - Command to run a `.ox` code (right click, and click `Ox Run`)
-- Syntax Highlighting
+- Syntax Highlighting for `.ox` and `.oxh` files.
 - A problem matcher is implemented to quickly jump to errors.
 - [Documentation generation (javadoc style)](#Doc-Generation)
 - region folding ( via `//region` and `//endregion` )
@@ -77,6 +80,13 @@ A reload of Visual Studio Code is needed to complete installation.
 Autocompletion is provided as you type, after `[.]` (while calling a function ) or `[this.]` (inside a member function).
 
 ![doc generation](https://www.prolept.com/vscode/completion.gif)
+
+#### Include Autocomplete
+
+Provide autocompletion when you type an `#include` or `#import` statement. After typing `<` or `"` to begin the file name, the extension will scan your include directories to provide suggestions. 
+
+
+![Import Suggestion](https://www.prolept.com/vscode/importsuggestion.gif)
 
 #### Signature Help 
 
@@ -105,6 +115,15 @@ Go To Definition (or Peek) is supported for functions:
 
 ![Go To Definition](https://www.prolept.com/vscode/peekDefinition.gif)
 
+#### Symbols 
+
+![Symbols](https://www.prolept.com/vscode/outline.gif)
+
+#### Formatter
+
+Formatter : right click -> `Format Document`, thanks to [AStyle](http://astyle.sourceforge.net/astyle.html)
+
+![Formatter](https://www.prolept.com/vscode/formatter.gif)
 
 #### Code Snippets
 
@@ -166,9 +185,10 @@ This extension contributes the following settings:
   - [Anltr 4 (Parser generator)](https://www.antlr.org/)
   - [Artistic Style (Automatic Formatter)](http://astyle.sourceforge.net/astyle.html)
   - [vscode-go](https://github.com/Microsoft/vscode-go)
-  - [intellij idea community](https://www.jetbrains.com/fr-fr/idea/)
   - [intellij plugin for ANTLR v4 ](https://github.com/antlr/intellij-plugin-v4)
   - [cmake](https://cmake.org/)
+  - Jurgen Doornik and Sébastien Laurent for helpful discussions.
+  
 
  
 
@@ -224,6 +244,9 @@ This extension contributes the following settings:
     ]
 }
 ```
+
+- If you have an issue about ox, you can ask it on [stackoverflow](https://stackoverflow.com/) with the tag "ox". 
+
 ## Known Issues 
 
  - `Format Document` doesn't work properly when the ox file contains a nested comment. 
@@ -232,5 +255,3 @@ This extension contributes the following settings:
 
 - This extension: The MIT License (MIT) 
 - OxLinter : copyright [Prolept](https://www.prolept.com), this extension relies heavily on a command line executable named `OxLinter` (freeware) that is bundled with this extension.
-
-  *Please note that futures versions of this extension may be commercialized.*

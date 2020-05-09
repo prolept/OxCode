@@ -6,13 +6,17 @@
 import * as vscode from 'vscode';
 import fs = require('fs');
 import path = require('path');
-import { FixPathWindows } from './util';
+import { FixPathWindows, DevLog } from './util';
 import cp = require('child_process');
 var AdmZip = require('adm-zip');
 
 const platform = process.platform; // possible node values 'darwin', 'freebsd', 'linux', 'sunos' or 'win32'
 export function IsMac(): Boolean {
     return platform == "darwin";
+    // return IsMacOS;
+}
+export function IsWindows(): Boolean {
+    return platform == "win32";
     // return IsMacOS;
 }
 export function IsLinux(): Boolean {
@@ -34,7 +38,7 @@ let s_oxmetricsFullPath: string;
 
 export function initPaths(oxmetricsFolder: string): boolean {
     try {
-        console.log("initPaths..");
+        DevLog("initPaths..");
         var oxl;
         if (IsMac())
             oxl = path.resolve(oxmetricsFolder, './ox/bin/oxl'); // "C:\Program Files\OxMetrics8\ox\bin64\oxl.exe"
@@ -44,9 +48,21 @@ export function initPaths(oxmetricsFolder: string): boolean {
             oxl = path.resolve(oxmetricsFolder, './ox/bin64/oxl.exe'); // "C:\Program Files\OxMetrics8\ox\bin64\oxl.exe"
         s_oxlFullPath = oxl;
         if (!fs.existsSync(s_oxlFullPath)) {
-            console.log("can not find oxl");
-            vscode.window.showErrorMessage("The extension cannot find the ox console in the oxmetrics folder.")
-            return false;
+            var error = true;
+
+            if (IsWindows) {
+                //possible oxl 32 bits only on windows ...
+                oxl = path.resolve(oxmetricsFolder, './ox/bin/oxl.exe');
+                if (fs.existsSync(oxl))
+                    error = false;
+                s_oxlFullPath = oxl;
+            }
+            if (error) {
+                DevLog("can not find oxl");
+                vscode.window.showErrorMessage("The extension cannot find the ox console in the oxmetrics folder.")
+                return false;
+            }
+
         }
         var dirOx = path.resolve(oxmetricsFolder, './ox'); //  C:\Program Files\OxMetrics8\ox\
         var dirInclude = path.resolve(dirOx, './include');  //  C:\Program Files\OxMetrics8\ox\include
@@ -68,16 +84,25 @@ export function initPaths(oxmetricsFolder: string): boolean {
             s_oxmetricsFullPath = path.resolve(oxmetricsFolder, './bin64/oxmetrics.exe'); //C:\Program Files\OxMetrics8\bin64\oxmetrics.exe
 
         }
-        console.log("init s_oxRunFullPath :", s_oxRunFullPath);
-        console.log("init s_oxmetricsFullPath :", s_oxmetricsFullPath);
+        //Add OX8PATHS  environement to linter search paths.
+        if (process.env.OX8PATH) {
+            var paths = process.env.OX8PATH;
+            var asplitted = paths.split(";");
+            asplitted.forEach(element => {
+                s_defaultIncludeFolder.push(element);
+                DevLog("add path from env : ", element);
+            });
+        }
+        DevLog("init s_oxRunFullPath :", s_oxRunFullPath);
+        DevLog("init s_oxmetricsFullPath :", s_oxmetricsFullPath);
         let optionsAstyle = " --pad-header --break-blocks  --pad-oper --style=java --delete-empty-lines --unpad-paren ";
         var oxConfig = vscode.workspace.getConfiguration('oxcode');
         if (!oxConfig.has('astyleOptions') || oxConfig['astyleOptions'] == null || oxConfig['astyleOptions'] == "")
             oxConfig.update("astyleOptions", optionsAstyle, vscode.ConfigurationTarget.Global);
         return true;
     } catch (error) {
-        console.log(error);
-        console.log("The given folder path oxmetrics is invalid");
+        DevLog(error);
+        DevLog("The given folder path oxmetrics is invalid");
         vscode.window.showErrorMessage("The given folder path  [" + oxmetricsFolder + "] for OxMetrics is invalid (or oxmetrics is corrupted).")
 
         return false;
@@ -93,7 +118,7 @@ function VerifyLinterVersion(): boolean {
         oxlinter.flags.push("--version");
         let p: cp.ChildProcess;
         if (!path.isAbsolute(oxlinter.FullProgramPath)) {
-            console.log("not an absolute path " + oxlinter.FullProgramPath);
+            DevLog("not an absolute path " + oxlinter.FullProgramPath);
             return false;
         }
         var stdout = cp.execFileSync(oxlinter.FullProgramPath, oxlinter.flags).toString();
@@ -102,10 +127,10 @@ function VerifyLinterVersion(): boolean {
         var correctVersion = "0.0.19";
         if (version[0] != correctVersion)
             return false;
-        console.log("correct linter version :" + correctVersion);
+        DevLog("correct linter version :" + correctVersion);
         return true;
     } catch (error) {
-        console.log(error);
+        DevLog(error);
         return false;
     }
 
@@ -116,7 +141,7 @@ export function CheckOxMetricsIsOk(extensionPath: string): boolean {
         var oxConfig = vscode.workspace.getConfiguration('oxcode');
         if (oxConfig == null)
             return false;
-        console.log("oxmetricsFolder inside: " + oxConfig["oxmetricsFolder"]);
+        DevLog("oxmetricsFolder inside: " + oxConfig["oxmetricsFolder"]);
 
         let oxlinterPath: string;
         let pathExtension = extensionPath;
@@ -128,61 +153,61 @@ export function CheckOxMetricsIsOk(extensionPath: string): boolean {
             oxlinterPath = FixPathWindows(path.resolve(pathExtension, "./bin/win/OxLinter.exe"));
 
         if (!fs.existsSync(oxlinterPath) && (IsMac() || IsLinux())) {
-            console.log("try to extract oxlinter.zip");
+            DevLog("try to extract oxlinter.zip");
             // si le package est fait sur windows ca doit ettre un zip à déziper 
             var spathzip = IsMac() ? "./bin/oxlinter.zip" : "./bin/linux/oxlinterlinux.zip";
             var zipfile = path.resolve(pathExtension, spathzip);
             if (!fs.existsSync(zipfile)) {
-                console.log("oxlinter.zip does not exist");
+                DevLog("oxlinter.zip does not exist");
                 vscode.window.showErrorMessage("The extension cannot find oxlinter.zip, please re-install the extension.")
                 return false;
             }
-            console.log("oxlinter.zip exist");
+            DevLog("oxlinter.zip exist");
             var spathbin = IsMac() ? "./bin/" : "./bin/linux/";
             var targetdir = path.resolve(pathExtension, spathbin);
             var zip = new AdmZip(zipfile);
             zip.extractAllTo(targetdir, true);//synchrone + force replace
             if (!fs.existsSync(oxlinterPath)) {
-                console.log("Mac/unix Os code:[JSQ5]");
+                DevLog("Mac/unix Os code:[JSQ5]");
                 vscode.window.showErrorMessage("The extension cannot find oxlinter code:[JSQ5].")
                 return false;
             }
             else {
                 // change permission
                 fs.chmodSync(oxlinterPath, 0o777);
-                console.log("success extracting oxlinter");
+                DevLog("success extracting oxlinter");
             }
         }
-        console.log("init(0) oxlinterPath :", oxlinterPath);
+        DevLog("init(0) oxlinterPath :", oxlinterPath);
         if (!IsMac && !fs.existsSync(oxlinterPath)) {
-            console.log("Problem  oxlinterPath not found...", oxlinterPath);
+            DevLog("Problem  oxlinterPath not found...", oxlinterPath);
             return false;
         }
         s_linterExeFullPath = oxlinterPath;
-        console.log("init(0) s_linterExeFullPath :", s_linterExeFullPath);
+        DevLog("init(0) s_linterExeFullPath :", s_linterExeFullPath);
         if (!VerifyLinterVersion()) {
-            console.log("invalid linter version");
+            DevLog("invalid linter version");
             vscode.window.showErrorMessage("Incorrect OxLinter version, please re-install the extension");
             return false;
         }
         // it is tricky to update setting because methods are asynchrones so raise an error and let the user enter the correct path... 
         if (!oxConfig.has('oxmetricsFolder') || oxConfig['oxmetricsFolder'] == null) {  // C:\Program Files\OxMetrics8\ox\bin64\oxl.exe ou /Applications/OxMetrics8/ox/bin/oxl
-            console.log("invalid oxmetrics setting [KDSM]");
+            DevLog("invalid oxmetrics setting [KDSM]");
             vscode.window.showErrorMessage(sInvalidOxMetricsFolderMessage)
             return false;
         }
         else {
             var oxmetricPath = oxConfig['oxmetricsFolder']; // /Applications/OxMetrics8/ox/bin/oxl /// l'utilsateur doit donc rentrer /Applications/OxMetrics8/ox/bin/oxl 
             if (!initPaths(oxmetricPath)) {
-                console.log("!initPaths");
+                DevLog("!initPaths");
                 vscode.window.showErrorMessage(sInvalidOxMetricsFolderMessage)
                 return false;
             }
-            console.log("success check oxmetrics");
+            DevLog("success check oxmetrics");
             return true;
         }
     } catch (error) {
-        console.log(error)
+        DevLog(error)
         return false;
     }
 }
@@ -205,6 +230,10 @@ export function GetOxMetricsSrcFolder(): string {
 export function GetOxMetricsPath(): string {
     return s_oxmetricsFullPath;
 }
+export function GetOxIncludeFolders(): string[] {
+    return s_defaultIncludeFolder;
+}
+
 export function quoteFileName(fileName: string, fixPathWindows: boolean = true): string {
     if (fixPathWindows)
         return '\"' + FixPathWindows(fileName) + '\"';
@@ -212,23 +241,25 @@ export function quoteFileName(fileName: string, fixPathWindows: boolean = true):
         return '\"' + (fileName) + '\"';
 }
 
+var bInDev: boolean
+var bInDevInitialized: boolean
 export function IsInDev(): boolean {
-    var IsInDevModel = vscode.workspace.getConfiguration('oxcode').inspect('isDev');
-    if (IsInDevModel)
-        return true;
-    return false;
+    if (bInDevInitialized) return bInDev;
+    else {
+        bInDev = vscode.workspace.getConfiguration('oxcode').get('isDev');
+        bInDevInitialized = true;
+        return bInDev;
+    }
+
+
 }
 export function IsSignature(): boolean {
-    var Completion = vscode.workspace.getConfiguration('oxcode').inspect('signature');
-    if (Completion)
-        return true;
-    return false;
+    return vscode.workspace.getConfiguration('oxcode').get('signature');
+
 }
 export function IsCompletion(): boolean {
-    var Completion = vscode.workspace.getConfiguration('oxcode').inspect('completion');
-    if (Completion)
-        return true;
-    return false;
+    return vscode.workspace.getConfiguration('oxcode').get('completion');
+
 }
 export function GetOxLinter(flags?: any[]): ProcessInfo {
     var AddinConfig = vscode.workspace.getConfiguration('oxcode');
@@ -245,8 +276,8 @@ export function GetOxLinter(flags?: any[]): ProcessInfo {
             oxlinterFlag.push(element)
         });
     }
-    console.log("oxlinter in GetOxLinter: ", oxlinter);
+    DevLog("oxlinter in GetOxLinter: ", oxlinter);
     var prog: ProcessInfo = { FullProgramPath: oxlinter, flags: oxlinterFlag };
-    console.log("prog in GetOxLinter: ", prog);
+    DevLog("prog in GetOxLinter: ", prog);
     return prog;
 }

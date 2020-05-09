@@ -5,6 +5,7 @@
 'use strict';
 import vscode = require('vscode');
 import cp = require('child_process');
+import { IsInDev } from './OxBin';
 
 export function getWorkspaceFolderPath(fileUri?: vscode.Uri): string {
 	if (fileUri) {
@@ -41,6 +42,12 @@ export function FixPathWindows(cwd: string): string {
 }
 
 
+export function DevLog(...args: any[]) {
+	if (IsInDev())
+		console.log.apply(console, args);
+}
+
+
 export function byteOffsetAt(document: vscode.TextDocument, position: vscode.Position): number {
 	let offset = document.offsetAt(position);
 	let text = document.getText();
@@ -52,7 +59,7 @@ export function killProcess(p: cp.ChildProcess) {
 		try {
 			p.kill();
 		} catch (e) {
-			console.log('Error killing process: ' + e);
+			DevLog('Error killing process: ' + e);
 		}
 	}
 }

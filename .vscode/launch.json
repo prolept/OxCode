@@ -30,6 +30,22 @@
             "outFiles": [ "${workspaceFolder}/out/test/**/*.js" ],
             "preLaunchTask": "npm",
              
+        },
+		{
+			"name": "Debug server",
+			"type": "node",
+			"request": "launch",
+			"runtimeArgs": [ "--nolazy" ],
+			"program": "${workspaceRoot}/src/debugger/mockDebug.ts",
+			"stopOnEntry": false,
+			"args": [ "--server=4711" ],
+			"sourceMaps": true,
+			"outFiles": [
+				"${workspaceRoot}/out/**/*.js"
+			],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": "npm"
+			// "preLaunchTask": ["npm","Open TestGdb"]
         }
     ]
 }
