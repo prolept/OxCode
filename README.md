@@ -18,7 +18,7 @@ This extension provides rich language support for [Ox](https://www.doornik.com/o
 
 ## Requirements
  
-- [OxMetrics 8](https://www.timberlake.co.uk/software/oxmetrics.html) or above. For academic use, a free version of Ox (console) is available from the web site https://www.doornik.com/download.html
+- [OxMetrics 8](https://www.timberlake.co.uk/software/oxmetrics.html) or above. For academic use, a free version of Ox (console) is available from [this](https://www.doornik.com/download.html) web site 
 
 - Windows 64 bits, MacOS or Linux 64 bits
 

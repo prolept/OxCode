@@ -1,6 +1,7 @@
 # Change Log
 All notable changes to the extension will be documented in this file.
--  current (not released yet) - v 0.1.7
+-  09/05/2020 - v 0.1.7
+    - Wrap console.log to improve the execution performance
     - Windows: add support to 32 bits version of ox on x64 platform.
 
 -  05/03/2020 - v 0.1.6
