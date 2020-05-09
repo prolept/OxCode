@@ -12,7 +12,7 @@ import { OxCompletionItemProvider } from './OxCompletion';
 import CodeManager from './OxCodeManager';
 import GoDefinitionProvider from './oxGoToDefininition';
 import { GenDoc } from './OxGenDoc';
-import { getExtensionCommands, IsCorrectOxFile, FixPathWindows } from './util';
+import { getExtensionCommands, IsCorrectOxFile, FixPathWindows, DevLog } from './util';
 import { CheckOxMetricsIsOk, GetOxMetricsPath, GetOxDocFolder, GetOxIncludeFolders, IsWindows } from './OxBin';
 import { OxDocumentFormattingEditProvider } from './OxFormat';
 import { OxIncludeCompletionItemProvider } from './OxIncludeCompletion';
@@ -24,16 +24,16 @@ const open = require('open');
 export function activate(context: vscode.ExtensionContext) {
 
     console.log("Ox for Visual Studio - version : ", extensionPackage["version"]);
-    console.log("vscode version : ", vscode.version);
-    console.log("process.platform : ", process.platform);
+    DevLog("vscode version : ", vscode.version);
+    DevLog("process.platform : ", process.platform);
     if (process.platform != "darwin" && process.platform != "win32" && process.platform != "linux") {
-        console.log("invalid platform");
+        DevLog("invalid platform");
         vscode.window.showInformationMessage("OxCode does not support the current platform");
         return;
     }
 
     if (!CheckOxMetricsIsOk(context.extensionPath)) {
-        console.log('Invalid configuration')
+        DevLog('Invalid configuration')
         return;
     }
     const SymbolProvider = new OxDocumentSymbolProvider();
@@ -75,7 +75,7 @@ export function activate(context: vscode.ExtensionContext) {
         });
     }));
 
-    console.log('OK activate extension [789]')
+    DevLog('OK activate extension [789]')
 }
 function GetDebuggerPath(): string {
 
@@ -105,11 +105,11 @@ function OpenWithOxMetrics(): void {
         });
         subprocess.unref();
     } catch (error) {
-        console.log(error);
+        DevLog(error);
     }
 }
 async function RunHelp(): Promise<void> {
-    console.log("RunHelp");
+    DevLog("RunHelp");
     if (!IsCorrectOxFile())
         return;
     try {
@@ -118,7 +118,7 @@ async function RunHelp(): Promise<void> {
         open(url2); // for some reasons it didn't work with vscode.env.openExterna(...)
 
     } catch (error) {
-        console.log(error);
+        DevLog(error);
     }
 }
 function CheckSyntaxOnSave(document: vscode.TextDocument): void {
@@ -133,7 +133,7 @@ function CleanBakFiles(): void {
     vscode.workspace.findFiles("*.bak", "", 20).then(value => {
         for (let _i = 0; _i < value.length; _i++) {
             var mess = value[_i];
-            console.log("Delete .bak file: " + mess);
+            DevLog("Delete .bak file: " + mess);
             fs.unlinkSync(mess.fsPath);
 
         }
@@ -141,7 +141,7 @@ function CleanBakFiles(): void {
 }
 // this method is called when your extension is deactivated
 export function deactivate() {
-    console.log("deactivate oxcode");
+    DevLog("deactivate oxcode");
     if (codeManager != null)
         codeManager.KillRunningOx();
 }

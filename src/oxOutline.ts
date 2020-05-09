@@ -5,7 +5,7 @@
 import vscode = require('vscode');
 import * as path from 'path';
 import { Position } from "vscode";
-import { OxOutlineDeclaration, killProcess, getKeyForLru } from "./util";
+import { OxOutlineDeclaration, killProcess, getKeyForLru, DevLog } from "./util";
 import { GetOxLinter } from './OxBin';
 import cp = require('child_process');
 var LRU = require("lru-cache") //https://github.com/isaacs/node-lru-cache
@@ -29,7 +29,7 @@ export interface OxOutlineOptions {
 
 
 function runSymbol(options: OxOutlineOptions, token: vscode.CancellationToken, callback) {
-	// console.log("runSymbol")
+	//DevLog("runSymbol")
 	// vscode.window.showInformationMessage("runSymbol outline");
 	var oxlinter = GetOxLinter(['--symbol', "--filestdin=" + options.fileName]);
 	let p: cp.ChildProcess;
@@ -37,15 +37,15 @@ function runSymbol(options: OxOutlineOptions, token: vscode.CancellationToken, c
 		token.onCancellationRequested(() => killProcess(p));
 	}
 	let dir = path.dirname(options.fileName);
-	// console.log("oxlinter.FullProgramPat", oxlinter.FullProgramPath);
-	// console.log("oxlinter.flags", oxlinter.flags);
+	//DevLog("oxlinter.FullProgramPat", oxlinter.FullProgramPath);
+	//DevLog("oxlinter.flags", oxlinter.flags);
 	p = cp.execFile(oxlinter.FullProgramPath, oxlinter.flags, { cwd: dir }, (error, stdout, stderr) => {
 		if (error) {
-			// console.log(error);
+			//DevLog(error);
 			return callback(null);
 		}
-		if (stderr) console.log(error);
-		//  console.log("stdout", error);
+		if (stderr) DevLog(error);
+		// DevLog("stdout", error);
 		return callback(stdout);
 
 	});
@@ -57,7 +57,7 @@ export function documentSymbols(options: OxOutlineOptions, token: vscode.Cancell
 	return new Promise<OxOutlineDeclaration[]>((resolve, reject) => {
 		// vscode.window.showInformationMessage('execute documentSymbols');
 		runSymbol(options, token, function (result) {
-			//    console.log("runSymbol:"+result);
+			//   DevLog("runSymbol:"+result);
 			try {
 				if (result == "") return resolve(null);
 				let decls = <OxOutlineDeclaration[]>JSON.parse(result);
@@ -106,7 +106,7 @@ export class OxDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 		let symbols: vscode.DocumentSymbol[] = [];
 
 		if (this.Cache.has(getKeyForLru("outline", document))) {
-			// console.log("Symbol from cache");
+			//DevLog("Symbol from cache");
 			return new Promise<vscode.DocumentSymbol[]>((resolve, reject) => {
 				return resolve(this.Cache.get(getKeyForLru("outline", document)));
 			});

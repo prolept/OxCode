@@ -6,7 +6,7 @@ import fs = require('fs');
 import * as path from 'path';
 import * as cp from 'child_process'
 import { commands, Diagnostic, workspace, DiagnosticSeverity, languages, Position, Range, Uri, window, Disposable } from "vscode";
-import { byteOffsetAt, OxIssue, IsCorrectOxFile, getWorkspaceFolderPath } from './util';
+import { byteOffsetAt, OxIssue, IsCorrectOxFile, getWorkspaceFolderPath, DevLog } from './util';
 import { GetOxLinter, GetOxlPath, GetOxRunPath, quoteFileName } from './OxBin';
 
 
@@ -121,8 +121,8 @@ export default class CodeManager {
             p = cp.execFile(oxlinter.FullProgramPath, oxlinter.flags, { cwd: dir }, (error, stdout, stderr) => {
 
                 if (onlysavePrepro) {
-                    console.log(stderr.toString());
-                    console.log(stdout.toString());
+                    DevLog(stderr.toString());
+                    DevLog(stdout.toString());
                 }
                 // console.error(stderr.toString());
                 this._isRunningLinter = false;
@@ -167,7 +167,7 @@ export default class CodeManager {
                     let value = diagsCollection[key];
                     let filepath: vscode.Uri;
                     var key2 = key;
-                    console.log("key2" + key2);
+                    DevLog("key2" + key2);
                     var stats = fs.statSync(key2);
                     if (stats) {
                         filepath = Uri.file(key2);// Uri.file(key);
@@ -188,7 +188,7 @@ export default class CodeManager {
         }
         catch (e) {
             this._isRunningLinter = false;
-            console.log('Error Occur !');
+            DevLog('Error Occur !');
 
         }
     }
@@ -288,7 +288,7 @@ export default class CodeManager {
                 var key2 = key2.replace(/\\\\/g, '\\'); //IMPORTANT SINON PROBLEM FREEZE QUAND ON CLIQUE SUR PROBLEM
                 key2 = key2.replace(/c:\//g, 'c:\\');
                 key2 = key2.replace(/c:\\/g, 'c://');
-                console.log("key2" + key2);
+                DevLog("key2" + key2);
                 try {
                     var stats = fs.statSync(key2);
                     if (stats) {
@@ -300,7 +300,7 @@ export default class CodeManager {
                     }
                 }
                 catch (e) {
-                    console.log(e);
+                    DevLog(e);
                 }
             }
             if (counter > 0) {
@@ -317,7 +317,7 @@ export default class CodeManager {
             this._process.kill();
         }
         catch (e) {
-            //  console.log(e);  
+            // DevLog(e);  
         }
     }
     public Run(OxRun: boolean): void { //TODO a changer pour lancer independant Ox RUN
@@ -411,7 +411,7 @@ export default class CodeManager {
                 key2 = key2.replace(/c:\//g, 'c:\\');
                 key2 = key2.replace(/c:\\/g, 'c://');
                 //  key2 = key2.replace(/c:\//g, 'c:\\');
-                console.log("key2" + key2);
+                DevLog("key2" + key2);
                 try {
                     var stats = fs.statSync(key2);
                     // var  key2 ="file:///" +key2;
@@ -425,7 +425,7 @@ export default class CodeManager {
                     }
                 }
                 catch (e) {
-                    console.log(e);
+                    DevLog(e);
                 }
 
             }
@@ -452,7 +452,7 @@ export default class CodeManager {
         });
         proc.on("close", (code) => {
             if (proc.code != 0) {
-                // console.log("close :"+stdout);
+                //DevLog("close :"+stdout);
                 // cf https://github.com/Ikuyadeu/vscode-R
                 const lintRegex = /(.*) \((\d+)\).*?:(.*)/g;
                 const diagsCollection: { [key: string]: Diagnostic[] } = {};
@@ -490,7 +490,7 @@ export default class CodeManager {
                     }
                 }
                 catch (e) {
-                    console.log(e);
+                    DevLog(e);
                 }
                 // this._diagnostics.set(Uri.file(document.fileName),  diagsCollection[filename]);
             }

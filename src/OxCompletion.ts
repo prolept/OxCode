@@ -6,7 +6,7 @@
 import * as vscode from 'vscode';
 import cp = require('child_process');
 import { CompletionItem } from 'vscode'
-import { oxKeywords, killProcess, getKeyForLru } from './util';
+import { oxKeywords, killProcess, getKeyForLru, DevLog } from './util';
 import path = require('path');
 import { GetOxLinter, IsCompletion } from './OxBin';
 var LRU = require("lru-cache") //https://github.com/isaacs/node-lru-cache
@@ -24,7 +24,7 @@ function runCompletition(document: vscode.TextDocument, parentvar: string, line:
     var LruKey = getKeyForLru(parentvar, document);
 
     if (Cache_Autocompletion.has(LruKey)) {
-        // console.log("autocompletition form cache");
+        //DevLog("autocompletition form cache");
         return callback(Cache_Autocompletion.get(LruKey));
     }
 
@@ -34,7 +34,7 @@ function runCompletition(document: vscode.TextDocument, parentvar: string, line:
     }
     p = cp.execFile(oxlinter.FullProgramPath, oxlinter.flags, { cwd: dir }, (error, stdout, stderr) => {
         if (error) {
-            console.log('Error definition null');
+            DevLog('Error definition null');
             return callback(null);
         }
         if (stdout == "")
@@ -55,7 +55,7 @@ function documentCompletion(document: vscode.TextDocument, parentvar: string, li
                 let decls = <IOxCompletion[]>JSON.parse(result);
                 return resolve(decls);
             } catch (e) {
-                console.log(e);
+                DevLog(e);
                 return resolve(null);
             }
         });
