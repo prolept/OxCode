@@ -79,6 +79,8 @@ A reload of Visual Studio Code is needed to complete installation.
 
 Autocompletion is provided as you type, after `[.]` (while calling a function ) or `[this.]` (inside a member function).
 
+For a better performance, it is *not* recommended to turn on the [Auto Save](https://code.visualstudio.com/docs/editor/codebasics#_save-auto-save) feature of VSCode.
+
 ![doc generation](https://www.prolept.com/vscode/completion.gif)
 
 #### Include Autocomplete
@@ -163,6 +165,7 @@ The extension  provides several commands in the Command Palette for working with
 * `Ox Run` to run the current file
 * `Ox OxRun` to run the current file using OxRun (for graphics)
 * `Ox Run in terminal` to run the current file via a terminal
+* `Ox Reset OxCode Cache` to clear the internal cache of OxCode
  
 You can access all of the above commands from the command palette (`Cmd+Shift+P` or `Ctrl+Shift+P`).
 
@@ -187,7 +190,7 @@ This extension contributes the following settings:
   - [vscode-go](https://github.com/Microsoft/vscode-go)
   - [intellij plugin for ANTLR v4 ](https://github.com/antlr/intellij-plugin-v4)
   - [cmake](https://cmake.org/)
-  - Jurgen Doornik and Sébastien Laurent for helpful discussions.
+  - [Jurgen Doornik](https://www.doornik.com/) and [Sébastien Laurent](http://www.slaurent.net/) for helpful discussions.
   
 
  

@@ -2,7 +2,7 @@
 	"name": "oxcode",
 	"displayName": "OxCode",
 	"description": "Rich Ox language support for Visual Studio Code",
-	"version": "0.1.7",
+	"version": "0.1.8",
 	"icon": "icons/icon.png",
 	"publisher": "Prolept",
 	"license": "MIT",
@@ -33,7 +33,8 @@
 		"onCommand:ox.CleanUp",
 		"onCommand:ox.KillOx",
 		"onCommand:ox.SavePreprocessed",
-		"onCommand:ox.Help"
+		"onCommand:ox.Help",
+		"onCommand:ox.ClearCache"
 	],
 	"main": "./out/src/extension",
 	"contributes": {
@@ -95,6 +96,10 @@
 			{
 				"command": "extension.Help",
 				"title": "Ox Help"
+			},
+			{
+				"command": "extension.ClearCache",
+				"title": "Ox Reset OxCode Cache"
 			},
 			{
 				"command": "ox.show.commands",
@@ -204,25 +209,25 @@
 	},
 	"devDependencies": {
 		"@types/fs-extra": "^8.1.1",
-		"@types/glob": "^7.1.1",
+		"@types/glob": "^7.1.3",
 		"@types/mocha": "^5.2.7",
-		"@types/node": "^12.12.42",
-		"@types/vscode": "^1.45.1",
+		"@types/node": "^12.19.9",
+		"@types/vscode": "^1.52.0",
 		"glob": "^7.1.4",
 		"mocha": "^6.2.3",
 		"tslint": "^5.16.0",
-		"typescript": "^3.9.3",
-		"vscode-test": "^1.4.0"
+		"typescript": "^3.9.7",
+		"vscode-test": "^1.4.1"
 	},
 	"engines": {
-		"vscode": "^1.40.0"
+		"vscode": "^1.52.0"
 	},
 	"dependencies": {
-		"adm-zip": "^0.4.14",
+		"adm-zip": "^0.4.16",
 		"lru-cache": "^5.1.1",
 		"open": "^6.3.0",
-		"vscode-debugadapter": "^1.40.0",
-		"vscode-debugprotocol": "^1.40.0"
+		"vscode-debugadapter": "^1.43.0",
+		"vscode-debugprotocol": "^1.43.0"
 	},
 	"__metadata": {
 		"id": "dbb12353-bd2a-4cc1-8448-0da71d858113",
