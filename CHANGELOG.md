@@ -1,5 +1,8 @@
 # Change Log
 All notable changes to the extension will be documented in this file.
+-  21/12/2020 - v 0.1.8
+   - Improve the performance of the autocompletion and the Outline view features. Add the command `ClearCache` to delete all caches. 
+
 -  09/05/2020 - v 0.1.7
     - Wrap console.log to improve the execution performance
     - Windows: add support to 32 bits version of ox on x64 platform.

@@ -19,11 +19,13 @@ import { OxIncludeCompletionItemProvider } from './OxIncludeCompletion';
 const OX_MODE: vscode.DocumentFilter = { language: 'ox', scheme: 'file' };
 const OX_SELECTOR: vscode.DocumentSelector = { scheme: 'file', language: 'ox' };// only files from disk
 const codeManager = new CodeManager();
+const SymbolProvider = new OxDocumentSymbolProvider();
+const CompletionItemProvider = new OxCompletionItemProvider();
 const extensionPackage = require('../../package.json');
 const open = require('open');
 export function activate(context: vscode.ExtensionContext) {
 
-    console.log("Ox for Visual Studio - version : ", extensionPackage["version"]);
+    DevLog("Ox for Visual Studio - version : ", extensionPackage["version"]);
     DevLog("vscode version : ", vscode.version);
     DevLog("process.platform : ", process.platform);
     if (process.platform != "darwin" && process.platform != "win32" && process.platform != "linux") {
@@ -36,15 +38,18 @@ export function activate(context: vscode.ExtensionContext) {
         DevLog('Invalid configuration')
         return;
     }
-    const SymbolProvider = new OxDocumentSymbolProvider();
+
+
 
     const providerInclude = new OxIncludeCompletionItemProvider(GetOxIncludeFolders());
+
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider(OX_SELECTOR, providerInclude, "<", '"', "/", "\\"));
+    context.subscriptions.push(workspace.onDidSaveTextDocument(document => SymbolProvider.ClearCacheForAFile(document)));
     context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(OX_MODE, SymbolProvider));
     context.subscriptions.push(vscode.languages.registerImplementationProvider(OX_SELECTOR, new GoImplementationProvider()));
     context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(OX_SELECTOR, new OxDocumentFormattingEditProvider()));
     context.subscriptions.push(vscode.languages.registerSignatureHelpProvider(OX_SELECTOR, new OxSignatureHelpProvider(), '(', ','));
-    context.subscriptions.push(vscode.languages.registerCompletionItemProvider(OX_SELECTOR, new OxCompletionItemProvider(), '.' /* triggered whenever a '.' is being typed*/));
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider(OX_SELECTOR, CompletionItemProvider, '.' /* triggered whenever a '.' is being typed*/));
     context.subscriptions.push(vscode.languages.registerDefinitionProvider(OX_SELECTOR, new GoDefinitionProvider()));
     context.subscriptions.push(vscode.commands.registerCommand('extension.RunOxInTerminal', () => { codeManager.runInTerminal(); }));
     context.subscriptions.push(vscode.commands.registerCommand('extension.RunOx', () => { codeManager.Run(false); }));
@@ -58,9 +63,12 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand('extension.ClearError', () => { codeManager.clearError(); }));
     context.subscriptions.push(vscode.commands.registerCommand('extension.Help', () => { RunHelp(); }));
     context.subscriptions.push(vscode.commands.registerCommand('extension.OpenWithOxMetrics', () => { OpenWithOxMetrics(); }));
+    context.subscriptions.push(vscode.commands.registerCommand('extension.ClearCache', () => { ClearAllCaches(); }));
     context.subscriptions.push(workspace.onDidChangeTextDocument(eve => GenDoc(eve)));
     context.subscriptions.push(workspace.onDidSaveTextDocument(document => CheckSyntaxOnSave(document)));
     context.subscriptions.push(workspace.onDidSaveTextDocument(() => codeManager.clearError()));
+
+    context.subscriptions.push(workspace.onDidSaveTextDocument(() => CompletionItemProvider.ClearCache()));
     context.subscriptions.push(vscode.commands.registerCommand('extension.ox.GetDebuggerPath', config => { return GetDebuggerPath(); }));
     context.subscriptions.push(vscode.commands.registerCommand('ox.show.commands', () => {
         const extCommands = getExtensionCommands();
@@ -77,6 +85,13 @@ export function activate(context: vscode.ExtensionContext) {
 
     DevLog('OK activate extension [789]')
 }
+
+function ClearAllCaches(): void {
+    CompletionItemProvider.ClearCache();
+    SymbolProvider.ClearCache();
+
+}
+
 function GetDebuggerPath(): string {
 
     if (IsWindows()) {

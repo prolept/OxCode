@@ -15,7 +15,7 @@ export interface IOxCompletion {
     type: string;
 }
 
-var Cache_Autocompletion = new LRU({ max: 20, maxAge: 1 * 60 * 1000 })
+var Cache_Autocompletion = new LRU({ max: 40, maxAge: 10 * 60 * 1000 }) // 10 minutes BUT reset on File Save. 
 
 function runCompletition(document: vscode.TextDocument, parentvar: string, line: number, token: vscode.CancellationToken, callback) {
     var filename = document.fileName;
@@ -115,5 +115,17 @@ export class OxCompletionItemProvider implements vscode.CompletionItemProvider, 
         return new Promise<CompletionItem[]>((resolve, reject) => { return resolve(suggestions); })
     }
 
+    //TODO not possible for the moment because the key in the cache uses the parent variable.
+    // public ClearCacheForAFile(document: vscode.TextDocument): void {
+    //     if (Cache_Autocompletion.has(getKeyForLru("outline", document))) {
+    //         Cache_Autocompletion.del(getKeyForLru("outline", document));
+    //         DevLog("Delete cache : " + document.fileName);
+    //     }
+    // }
+
+    public ClearCache(): void {
+        DevLog("ClearAutocompletionCache");
+        Cache_Autocompletion.reset();
+    }
 
 }

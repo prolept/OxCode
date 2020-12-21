@@ -29,8 +29,6 @@ export interface OxOutlineOptions {
 
 
 function runSymbol(options: OxOutlineOptions, token: vscode.CancellationToken, callback) {
-	//DevLog("runSymbol")
-	// vscode.window.showInformationMessage("runSymbol outline");
 	var oxlinter = GetOxLinter(['--symbol', "--filestdin=" + options.fileName]);
 	let p: cp.ChildProcess;
 	if (token) {
@@ -74,10 +72,11 @@ export function documentSymbols(options: OxOutlineOptions, token: vscode.Cancell
 }
 
 
+
 export class OxDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
 	// For performance issues a LRU cache is used. Need to be improved...
-	private Cache = new LRU({ max: 20, maxAge: 30 * 1000 }) // 30 sec max
+	private Cache = new LRU({ max: 20, maxAge: 10 * 60 * 1000 }) // 10 min max
 
 	private goKindToCodeKind: { [key: string]: vscode.SymbolKind } = {
 		'ExternalFunction': vscode.SymbolKind.Function,
@@ -120,12 +119,26 @@ export class OxDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 					try {
 						this.Cache.set(getKeyForLru("outline", document), symbols);
 					} catch (error) {
-						console.log("cache error " + error);
+						DevLog("cache error " + error);
 					}
 
 				}
 				return symbols;
 			});
 		}
+
+
+
+
+	}
+
+	public ClearCacheForAFile(document: vscode.TextDocument): void {
+		if (this.Cache.has(getKeyForLru("outline", document))) {
+			this.Cache.del(getKeyForLru("outline", document));
+			DevLog("Delete cache : " + document.fileName);
+		}
+	}
+	public ClearCache(): void {
+		this.Cache.reset();
 	}
 }
