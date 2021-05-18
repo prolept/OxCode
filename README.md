@@ -18,7 +18,7 @@ This extension provides rich language support for [Ox](https://www.doornik.com/o
 
 ## Requirements
  
-- [OxMetrics 8](https://www.timberlake.co.uk/software/oxmetrics.html) or above. For academic use, a free version of Ox (console) is available from [this](https://www.doornik.com/download.html) web site 
+- [OxMetrics 9](https://www.timberlake.co.uk/software/oxmetrics.html) or above. For academic use, a free version of Ox (console) is available from [this](https://www.doornik.com/download.html) web site 
 
 - Windows 64 bits, MacOS or Linux 64 bits
 
@@ -29,15 +29,19 @@ After installation, the extension setting `oxmetricsFolder` must be set to the f
 
 Example:
 
-- Windows :   `C:\Program Files\OxMetrics8`
-- MacOs   :   `/Applications/OxMetrics8/`
-- Linux   :   `/usr/share/OxMetrics8/`
+- Windows :   `C:\Program Files\OxMetrics9`
+- MacOs   :   `/Applications/OxMetrics9/`
+- Linux   :   `/usr/share/OxMetrics9/`
 
 You can change the extension setting via : `File` -> `Preferences` -> `Setting` -> `Extension` -> `OxCode`  (see [Setting](https://code.visualstudio.com/docs/getstarted/settings)) 
 
 A reload of Visual Studio Code is needed to complete installation.
 
 ## Language Features
+
+### Debugging (experimental)
+
+ - [Debugger](docs/debugger.md)
  
 ### IntelliSense
  

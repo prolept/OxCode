@@ -112,7 +112,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>\b(NULL|TRUE|FALSE|NaN)\b</string>
+			<string>\b(NULL|TRUE|FALSE|NaN|last)\b</string>
 			<key>name</key>
 			<string>constant.language.ox</string>
 		</dict>
@@ -163,10 +163,11 @@
 				</dict>
 			</array>
 		</dict>
-		<!--
+		 
 		<dict>
 			<key>begin</key>
-			<string>'</string>
+			<!-- <string>(?:(')|(?<!>)(?=\\n))</string> -->
+			<string>((?&lt;=(\[|\(|\{|=|\s|,|;))|^)'</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>0</key>
@@ -177,6 +178,7 @@
 			</dict>
 			<key>end</key>
 			<string>'</string>
+			<!-- <string>'(?=(\]|\)|\}|=|~|&lt;|&gt;|&amp;|\||-|\+|\*|\.|\^|\||\s|;|,))</string> -->
 			<key>endCaptures</key>
 			<dict>
 				<key>0</key>
@@ -193,9 +195,18 @@
 					<key>include</key>
 					<string>#string_escaped_char</string>
 				</dict>
+					<dict>
+					<key>include</key>
+					<string>#string_placeholder</string>
+				</dict>
 			</array>
 		</dict> 
-		-->
+		 <dict>
+			<key>match</key>
+			<string>((\w+)|(?&lt;=\])|(?&lt;=\)))\.?'</string>
+			<key>name</key>
+			<string>keyword.operator.transpose.ox</string>
+		</dict>
 		<!-- STRING END-->
 		
 		<dict>

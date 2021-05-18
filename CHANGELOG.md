@@ -1,5 +1,10 @@
 # Change Log
 All notable changes to the extension will be documented in this file.
+- DOING v 0.1.9
+   - Beta version of the debbuger (OxMetrics 9 Only)
+   - 2 new diagnotics: "An argument is never used" and "Enum should be written in UPPER CASE"
+   - Improve the cache of the autocompletion
+
 -  21/12/2020 - v 0.1.8
    - Improve the performance of the autocompletion and the Outline view features. Add the command `ClearCache` to delete all caches. 
 

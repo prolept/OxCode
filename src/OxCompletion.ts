@@ -115,13 +115,15 @@ export class OxCompletionItemProvider implements vscode.CompletionItemProvider, 
         return new Promise<CompletionItem[]>((resolve, reject) => { return resolve(suggestions); })
     }
 
-    //TODO not possible for the moment because the key in the cache uses the parent variable.
-    // public ClearCacheForAFile(document: vscode.TextDocument): void {
-    //     if (Cache_Autocompletion.has(getKeyForLru("outline", document))) {
-    //         Cache_Autocompletion.del(getKeyForLru("outline", document));
-    //         DevLog("Delete cache : " + document.fileName);
-    //     }
-    // }
+    public ClearCacheForAFile(document: vscode.TextDocument): void {
+        var inputfile = document.fileName.replace(/\s/g, "");;
+        Cache_Autocompletion.forEach((val, key: string, cache) => {
+            var file = key.substring(key.indexOf("#") + 1); //remove parent variable
+            if (file === inputfile) {
+                cache.del(key);
+            }
+        });
+    }
 
     public ClearCache(): void {
         DevLog("ClearAutocompletionCache");

@@ -7,7 +7,7 @@ import * as path from 'path';
 import * as cp from 'child_process'
 import { commands, Diagnostic, workspace, DiagnosticSeverity, languages, Position, Range, Uri, window, Disposable } from "vscode";
 import { byteOffsetAt, OxIssue, IsCorrectOxFile, getWorkspaceFolderPath, DevLog } from './util';
-import { GetOxLinter, GetOxlPath, GetOxRunPath, quoteFileName } from './OxBin';
+import { GetOxLinter, GetOxlPath, quoteFileName } from './OxBin';
 
 
 let StatusBarOxRunning: vscode.StatusBarItem;
@@ -320,7 +320,7 @@ export default class CodeManager {
             // DevLog(e);  
         }
     }
-    public Run(OxRun: boolean): void { //TODO a changer pour lancer independant Ox RUN
+    public Run(): void { //TODO a changer pour lancer independant Ox RUN
         if (!IsCorrectOxFile())
             return;
 
@@ -332,14 +332,10 @@ export default class CodeManager {
         this.clearError();
         let diagnostics: vscode.Diagnostic[] = [];
         let oxlPath: string;
-        if (OxRun)
-            oxlPath = GetOxRunPath();
-        else
-            oxlPath = GetOxlPath();
+        oxlPath = GetOxlPath();
         var command = quoteFileName(oxlPath) + " " + vscode.window.activeTextEditor.document.fileName;
         // this._isRunning = true;
-        if (!OxRun)
-            this.SetOxRunning(true);
+        this.SetOxRunning(true);
         this.updateStatusBar(true);
         const clearPreviousOutput = false;
         if (clearPreviousOutput) {
@@ -368,7 +364,7 @@ export default class CodeManager {
 
         this._process.on("close", (code) => {
             // this._isRunning = false;
-            if (OxRun) return;
+             
             this.SetOxRunning(false);
             // this.updateStatusBarItem(false);
             const endTime = new Date();

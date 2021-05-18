@@ -98,7 +98,7 @@ export interface OxOImplementation {
 
 }
 export function getKeyForLru(word: string, document: vscode.TextDocument): string {
-	let key = word + document.fileName.replace(/\s/g, "");
+	let key = word + '#' + document.fileName.replace(/\s/g, "");
 	return key;
 }
 export function isPositionInString(document: vscode.TextDocument, position: vscode.Position): boolean {

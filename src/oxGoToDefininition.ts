@@ -97,6 +97,7 @@ export function definitionLocation(document: vscode.TextDocument, position: vsco
 				}
 				let results: vscode.Definition = [];
 				console.log('stdout definition:', stdout);
+				console.log('stderr definition error:', stderr);
 				for (let decl of decls) {
 					let filepath: vscode.Uri;
 					var LineStart = Number(decl.startLine) - 1;

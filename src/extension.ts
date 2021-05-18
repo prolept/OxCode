@@ -12,8 +12,8 @@ import { OxCompletionItemProvider } from './OxCompletion';
 import CodeManager from './OxCodeManager';
 import GoDefinitionProvider from './oxGoToDefininition';
 import { GenDoc } from './OxGenDoc';
-import { getExtensionCommands, IsCorrectOxFile, FixPathWindows, DevLog } from './util';
-import { CheckOxMetricsIsOk, GetOxMetricsPath, GetOxDocFolder, GetOxIncludeFolders, IsWindows } from './OxBin';
+import { getExtensionCommands, IsCorrectOxFile, FixPathWindows, DevLog, oxStd } from './util';
+import { CheckOxMetricsIsOk, GetOxMetricsPath, GetOxDocFolder, GetOxIncludeFolders, IsWindows, IsOx9Plus, GetOxBaseFolder, IsMac } from './OxBin';
 import { OxDocumentFormattingEditProvider } from './OxFormat';
 import { OxIncludeCompletionItemProvider } from './OxIncludeCompletion';
 const OX_MODE: vscode.DocumentFilter = { language: 'ox', scheme: 'file' };
@@ -52,8 +52,8 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider(OX_SELECTOR, CompletionItemProvider, '.' /* triggered whenever a '.' is being typed*/));
     context.subscriptions.push(vscode.languages.registerDefinitionProvider(OX_SELECTOR, new GoDefinitionProvider()));
     context.subscriptions.push(vscode.commands.registerCommand('extension.RunOxInTerminal', () => { codeManager.runInTerminal(); }));
-    context.subscriptions.push(vscode.commands.registerCommand('extension.RunOx', () => { codeManager.Run(false); }));
-    context.subscriptions.push(vscode.commands.registerCommand('extension.RunOxViaOxRun', () => { codeManager.Run(true); }));
+    context.subscriptions.push(vscode.commands.registerCommand('extension.RunOx', () => { codeManager.Run(); }));
+    // context.subscriptions.push(vscode.commands.registerCommand('extension.RunOxViaOxRun', () => { codeManager.Run(true); }));
     context.subscriptions.push(vscode.commands.registerCommand('extension.KillOx', () => { codeManager.KillRunningOx(); }));
     context.subscriptions.push(vscode.commands.registerCommand('extension.CleanBakFiles', () => { CleanBakFiles(); }));
     context.subscriptions.push(vscode.commands.registerCommand('extension.CompileLinkOxo', () => { codeManager.CompileOxo(true); }));
@@ -68,8 +68,9 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(workspace.onDidSaveTextDocument(document => CheckSyntaxOnSave(document)));
     context.subscriptions.push(workspace.onDidSaveTextDocument(() => codeManager.clearError()));
 
-    context.subscriptions.push(workspace.onDidSaveTextDocument(() => CompletionItemProvider.ClearCache()));
+    context.subscriptions.push(workspace.onDidSaveTextDocument(document => CompletionItemProvider.ClearCacheForAFile(document)));
     context.subscriptions.push(vscode.commands.registerCommand('extension.ox.GetDebuggerPath', config => { return GetDebuggerPath(); }));
+
     context.subscriptions.push(vscode.commands.registerCommand('ox.show.commands', () => {
         const extCommands = getExtensionCommands();
         extCommands.push({ command: 'editor.action.goToDeclaration', title: 'Go to Definition' });
@@ -93,14 +94,23 @@ function ClearAllCaches(): void {
 }
 
 function GetDebuggerPath(): string {
-
+    var oxConfig = vscode.workspace.getConfiguration('oxcode');
+    if (oxConfig == null)
+        return "tochange";
+    var oxfolder = oxConfig["oxmetricsFolder"];
+    var IsOx9 = oxfolder.includes("OxMetrics9");
     if (IsWindows()) {
-        var oxConfig = vscode.workspace.getConfiguration('oxcode');
-        if (oxConfig == null)
-            return "tochange";
-        var oxfolder = oxConfig["oxmetricsFolder"];
-        var path = oxfolder + "\\ox\\bin\\oxli.exe";
+        var path = "";
+        if(IsOx9)
+            var path = oxfolder + "\\ox\\oxl.exe";
+        else
+            var path = oxfolder + "\\ox\\bin\\oxli.exe";
         return path;
+    }
+    else if(IsMac())
+    {
+        var path = oxfolder + "ox/oxl";
+        return path; 
     }
     return "tochange";
 }
@@ -124,14 +134,41 @@ function OpenWithOxMetrics(): void {
     }
 }
 async function RunHelp(): Promise<void> {
-    DevLog("RunHelp");
     if (!IsCorrectOxFile())
         return;
     try {
+        const editor = vscode.window.activeTextEditor;
+        const document = editor.document;
+        const posit = editor.selection.active;
+        let wordangeAtPosition = document.getWordRangeAtPosition(posit);
+        let txt = document.getText(wordangeAtPosition);
         var oxdocFolder = GetOxDocFolder();
-        var url2 = (oxdocFolder + "//oxstd.html");
-        open(url2); // for some reasons it didn't work with vscode.env.openExterna(...)
-
+        var baseOxFolder= GetOxBaseFolder();
+        if (oxStd.indexOf(txt) > -1) {
+            try {  //try to open at the anchor  (not possible if we don't specify the browser)
+                //file:///c:/program%20files/oxmetrics8/ox/doc/index.html?content=file:///c:/program%20files/oxmetrics8/ox/doc/oxstd.html#ranu
+                // var url2 = "file:///" + oxdocFolder + "//oxstd.html#" + txt;
+                // if(IsOx9Plus())
+                // {
+                //     var url2 = "file:///" + baseOxFolder + "/ox/doc/index.html?content=file:///" +   baseOxFolder + "/ox/doc/oxstd.html#"+txt
+                //     open(url2); // only firefox because other browsers have a specific name per OS .. ex: 'Google Chrome', 'Chrome' ..
+                // }
+                // else
+                // {
+                    var url2 = "file:///" + oxdocFolder + "//oxstd.html#" + txt;
+                    open(url2, { app: 'firefox' }); // only firefox because other browsers have a specific name per OS .. ex: 'Google Chrome', 'Chrome' ..
+                // }
+              
+            }
+            catch (error) {
+                // if firefox is not installed
+                DevLog(error);
+                open(oxdocFolder + "//oxstd.html"); //default  browser
+            }
+        }
+        else {
+            open(oxdocFolder + "//oxstd.html");  //default  browser
+        }
     } catch (error) {
         DevLog(error);
     }

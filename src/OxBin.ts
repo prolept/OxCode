@@ -31,26 +31,42 @@ export interface ProcessInfo {
 let s_defaultIncludeFolder = []
 let s_linterExeFullPath: string;
 let s_oxlFullPath: string;
-let s_oxRunFullPath: string;
+// let s_oxRunFullPath: string;
 let s_oxDocFolderPath: string;
 let s_oxmetricsSrcFolder: string;
 let s_oxmetricsFullPath: string;
-
+let s_oxmetricsBaseFolder: string;
+let s_IsOx9Plus : boolean
 export function initPaths(oxmetricsFolder: string): boolean {
     try {
         DevLog("initPaths..");
+        s_oxmetricsBaseFolder = oxmetricsFolder;
+        s_IsOx9Plus = oxmetricsFolder.includes("OxMetrics9");
+        if(s_IsOx9Plus)
+            DevLog("OxMetrics 9 detected");
         var oxl;
         if (IsMac())
-            oxl = path.resolve(oxmetricsFolder, './ox/bin/oxl'); // "C:\Program Files\OxMetrics8\ox\bin64\oxl.exe"
+        { 
+            if(s_IsOx9Plus)
+                 oxl =path.resolve(oxmetricsFolder, './ox/oxl'); 
+            else
+                oxl = path.resolve(oxmetricsFolder, './ox/bin/oxl'); // "C:\Program Files\OxMetrics8\ox\bin64\oxl.exe"
+        } 
         else if (IsLinux())
             oxl = path.resolve(oxmetricsFolder, './ox/bin64/oxl');
         else
-            oxl = path.resolve(oxmetricsFolder, './ox/bin64/oxl.exe'); // "C:\Program Files\OxMetrics8\ox\bin64\oxl.exe"
+        {
+            if(s_IsOx9Plus)
+                oxl = path.resolve(oxmetricsFolder, './ox/oxl.exe');   // "C:\Program Files\OxMetrics9\ox\oxl.exe"
+            else
+                oxl = path.resolve(oxmetricsFolder, './ox/bin64/oxl.exe'); // "C:\Program Files\OxMetrics8\ox\bin64\oxl.exe" 
+        }
+          
         s_oxlFullPath = oxl;
         if (!fs.existsSync(s_oxlFullPath)) {
             var error = true;
 
-            if (IsWindows) {
+            if (IsWindows && !s_IsOx9Plus) {
                 //possible oxl 32 bits only on windows ...
                 oxl = path.resolve(oxmetricsFolder, './ox/bin/oxl.exe');
                 if (fs.existsSync(oxl))
@@ -72,20 +88,24 @@ export function initPaths(oxmetricsFolder: string): boolean {
         s_defaultIncludeFolder.push(dirInclude);
         s_defaultIncludeFolder.push(dirOx);
         if (IsMac()) {
-            s_oxRunFullPath = path.resolve(oxmetricsFolder, './ox/bin/OxRun.app/Contents/MacOS/OxRun'); // 
+            // s_oxRunFullPath = path.resolve(oxmetricsFolder, './ox/bin/OxRun.app/Contents/MacOS/OxRun'); // 
             s_oxmetricsFullPath = path.resolve(oxmetricsFolder, './OxMetrics.app/Contents/MacOS/OxMetrics'); //
         }
         else if (IsLinux()) {
-            s_oxRunFullPath = path.resolve(oxmetricsFolder, './ox/bin64/oxrun'); // 
+            // s_oxRunFullPath = path.resolve(oxmetricsFolder, './ox/bin64/oxrun'); // 
             s_oxmetricsFullPath = path.resolve(oxmetricsFolder, './bin64/oxmetrics'); //
         }
         else {
-            s_oxRunFullPath = path.resolve(oxmetricsFolder, './ox/bin64/OxRun.exe'); // C:\Program Files\OxMetrics8\ox\bin64\oxrun.exe
-            s_oxmetricsFullPath = path.resolve(oxmetricsFolder, './bin64/oxmetrics.exe'); //C:\Program Files\OxMetrics8\bin64\oxmetrics.exe
+            // s_oxRunFullPath = path.resolve(oxmetricsFolder, './ox/bin64/OxRun.exe'); // C:\Program Files\OxMetrics8\ox\bin64\oxrun.exe
+
+            if(s_IsOx9Plus)
+                 s_oxmetricsFullPath = path.resolve(oxmetricsFolder, './ox/oxmetrics.exe'); 
+            else
+                s_oxmetricsFullPath = path.resolve(oxmetricsFolder, './bin64/oxmetrics.exe'); //C:\Program Files\OxMetrics8\bin64\oxmetrics.exe
 
         }
         //Add OX8PATHS  environement to linter search paths.
-        if (process.env.OX8PATH) {
+        if (process.env.OX9PATH) {
             var paths = process.env.OX8PATH;
             var asplitted = paths.split(";");
             asplitted.forEach(element => {
@@ -93,7 +113,7 @@ export function initPaths(oxmetricsFolder: string): boolean {
                 DevLog("add path from env : ", element);
             });
         }
-        DevLog("init s_oxRunFullPath :", s_oxRunFullPath);
+        // DevLog("init s_oxRunFullPath :", s_oxRunFullPath);
         DevLog("init s_oxmetricsFullPath :", s_oxmetricsFullPath);
         let optionsAstyle = " --pad-header --break-blocks  --pad-oper --style=java --delete-empty-lines --unpad-paren ";
         var oxConfig = vscode.workspace.getConfiguration('oxcode');
@@ -124,10 +144,11 @@ function VerifyLinterVersion(): boolean {
         var stdout = cp.execFileSync(oxlinter.FullProgramPath, oxlinter.flags).toString();
         var regex = /(\d+\.)(\d+\.)(\d+)/g;
         var version = stdout.match(regex);
-        var correctVersion = "0.0.19";
+        DevLog("Detecter linter version :" + version)
+        var correctVersion = "0.0.20";
         if (version[0] != correctVersion)
             return false;
-        DevLog("correct linter version :" + correctVersion);
+        ;
         return true;
     } catch (error) {
         DevLog(error);
@@ -211,14 +232,21 @@ export function CheckOxMetricsIsOk(extensionPath: string): boolean {
         return false;
     }
 }
-
+export function IsOx9Plus(): boolean {
+    // oxl.exe
+    return s_IsOx9Plus;
+}
 export function GetOxlPath(): string {
     // oxl.exe
     return s_oxlFullPath;
 }
-export function GetOxRunPath(): string {
-    return s_oxRunFullPath;
+// export function GetOxRunPath(): string {
+//     return s_oxRunFullPath;
+// }
+export function GetOxBaseFolder(): string {
+    return s_oxmetricsBaseFolder; //C:\Program Files\OxMetrics8\
 }
+
 export function GetOxDocFolder(): string {
     //C:\Program Files\OxMetrics8\ox\doc
     return s_oxDocFolderPath;

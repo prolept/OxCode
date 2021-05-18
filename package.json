@@ -2,7 +2,7 @@
 	"name": "oxcode",
 	"displayName": "OxCode",
 	"description": "Rich Ox language support for Visual Studio Code",
-	"version": "0.1.8",
+	"version": "0.1.9",
 	"icon": "icons/icon.png",
 	"publisher": "Prolept",
 	"license": "MIT",
@@ -18,7 +18,8 @@
 	"categories": [
 		"Other",
 		"Programming Languages",
-		"Linters"
+		"Linters",
+		"Debuggers"
 	],
 	"activationEvents": [
 		"onLanguage:ox",
@@ -66,10 +67,6 @@
 				"title": "Ox Run"
 			},
 			{
-				"command": "extension.RunOxViaOxRun",
-				"title": "Ox OxRun"
-			},
-			{
 				"command": "extension.CleanBakFiles",
 				"title": "Ox Clean.bak files"
 			},
@@ -110,6 +107,88 @@
 		"breakpoints": [
 			{
 				"language": "ox"
+			}
+		],
+		"debuggers": [
+			{
+				"type": "oxd",
+				"program": "./out/src/debugger/oxDebug.js",
+				"runtime": "node",
+				"label": "Ox Debugger",
+				"variables": {
+					"GetOxliPath": "extension.ox.GetDebuggerPath"
+				},
+				"configurationAttributes": {
+					"launch": {
+						"required": [
+							"target",
+							"oxdpath"
+						],
+						"properties": {
+							"target": {
+								"type": "string",
+								"description": "Path of oxfile",
+								"default": "${file}"
+							},
+							"cwd": {
+								"type": "string",
+								"description": "working directory",
+								"default": "${fileDirname}"
+							},
+							"oxdpath": {
+								"type": "string",
+								"description": "Path to the ox debugger executable or the command if in PATH",
+								"default": "${command:extension.ox.GetDebuggerPath}"
+							},
+							"debugger_args": {
+								"type": "array",
+								"description": "Additional arguments to pass to the ox debugger",
+								"default": []
+							},
+							"source_directories": {
+								"type": "array",
+								"description": "Additional source files directory (for oxo -d files)",
+								"default": []
+							},
+							"showOxOutput": {
+								"type": "boolean",
+								"description": "Prints ox stdout",
+								"default": true
+							},
+							"showDevDebugOutput": {
+								"type": "boolean",
+								"description": "Prints Logs",
+								"default": false
+							}
+						}
+					}
+				},
+				"initialConfigurations": [
+					{
+						"name": "Debug",
+						"type": "oxd",
+						"request": "launch",
+						"oxdpath": "${command:extension.ox.GetDebuggerPath}",
+						"target": "${file}",
+						"cwd": "${fileDirname}",
+						"showOxOutput": true
+					}
+				],
+				"configurationSnippets": [
+					{
+						"label": "OXDEBUG: Debug Ox file",
+						"description": "Starts the program using ox debugger",
+						"body": {
+							"name": "Launch Program",
+							"type": "oxd",
+							"request": "launch",
+							"oxdpath": "^\"\\${command:extension.ox.GetDebuggerPath}\"",
+							"target": "^\"\\${file}\"",
+							"cwd": "^\"\\${fileDirname}\"",
+							"showOxOutput": true
+						}
+					}
+				]
 			}
 		],
 		"menus": {
@@ -211,23 +290,24 @@
 		"@types/fs-extra": "^8.1.1",
 		"@types/glob": "^7.1.3",
 		"@types/mocha": "^5.2.7",
-		"@types/node": "^12.19.9",
-		"@types/vscode": "^1.52.0",
-		"glob": "^7.1.4",
+		"@types/node": "^12.20.13",
+		"@types/vscode": "^1.56.0",
+		"glob": "^7.1.7",
 		"mocha": "^6.2.3",
 		"tslint": "^5.16.0",
-		"typescript": "^3.9.7",
-		"vscode-test": "^1.4.1"
+		"typescript": "^3.9.9",
+		"vscode-test": "^1.5.2"
 	},
 	"engines": {
-		"vscode": "^1.52.0"
+		"vscode": "^1.56.0"
 	},
 	"dependencies": {
 		"adm-zip": "^0.4.16",
 		"lru-cache": "^5.1.1",
 		"open": "^6.3.0",
-		"vscode-debugadapter": "^1.43.0",
-		"vscode-debugprotocol": "^1.43.0"
+		"update": "^0.7.4",
+		"vscode-debugadapter": "^1.47.0",
+		"vscode-debugprotocol": "^1.47.0"
 	},
 	"__metadata": {
 		"id": "dbb12353-bd2a-4cc1-8448-0da71d858113",

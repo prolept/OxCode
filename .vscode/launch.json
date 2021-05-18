@@ -36,16 +36,15 @@
 			"type": "node",
 			"request": "launch",
 			"runtimeArgs": [ "--nolazy" ],
-			"program": "${workspaceRoot}/src/debugger/mockDebug.ts",
+			"program": "${workspaceRoot}/src/debugger/oxDebug.ts",
 			"stopOnEntry": false,
 			"args": [ "--server=4711" ],
 			"sourceMaps": true,
 			"outFiles": [
-				"${workspaceRoot}/out/**/*.js"
+				"${workspaceRoot}/out/src/**/*.js"
 			],
             "cwd": "${workspaceRoot}",
             "preLaunchTask": "npm"
-			// "preLaunchTask": ["npm","Open TestGdb"]
         }
     ]
 }
