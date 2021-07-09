@@ -1,6 +1,6 @@
 /*---------------------------------------------------------
  * Prolept 
- * Inspired by  : https://github.com/WebFreak001/code-debug and https://github.com/microsoft/vscode-mock-debug
+ * Strongly inspired by  : https://github.com/WebFreak001/code-debug and https://github.com/microsoft/vscode-mock-debug
  * MIT Licence
  *--------------------------------------------------------*/
 
@@ -361,7 +361,6 @@ export class OxDebugSession extends LoggingDebugSession {
 
 
 	onOutput(lines: regexMess) {
-		// this.log(`onOutput  token: ${lines.token} message: ` + lines.message);
 		const parsed = this.parseOxOutput(lines);
 		let handled = false;
 		if (parsed !== null) {
@@ -384,11 +383,11 @@ export class OxDebugSession extends LoggingDebugSession {
 							this.lastRecordedBreakLine = line;
 							this.emit("stopOnStep", parsed);
 						}
-						else if ((JSON.stringify(this.lastRecordedBreakLine) != JSON.stringify(line)) || this.AcceptSameBreak ) { //prevent infinite loop on same breakpoints 
+						else if ((JSON.stringify(this.lastRecordedBreakLine) != JSON.stringify(line)) || this.AcceptSameBreak) { //prevent infinite loop on same breakpoints 
 							line.token = -1;
 							this.lastRecordedBreakLine = line;
 							this.emit("stopOnStep", parsed);
-							if(this.AcceptSameBreak)
+							if (this.AcceptSameBreak)
 								this.AcceptSameBreak = false;
 
 						}
@@ -493,7 +492,7 @@ export class OxDebugSession extends LoggingDebugSession {
 
 	//#region Breakpoints 
 
-	async testperso(args: DebugProtocol.SetBreakpointsArguments): Promise<DebugAdapter.Breakpoint[]> {
+	async setbreakpoints(args: DebugProtocol.SetBreakpointsArguments): Promise<DebugAdapter.Breakpoint[]> {
 		// debugger;
 		var filepath = args.source.path;
 		var name = args.source.name;
@@ -629,7 +628,7 @@ export class OxDebugSession extends LoggingDebugSession {
 			this.clearBreakpoints(path).then(() => {
 				this.log("DO setBreakPointsRequest\n");
 
-				this.testperso(args).then(a => {
+				this.setbreakpoints(args).then(a => {
 					response.body = {
 						breakpoints: a
 					};
@@ -674,7 +673,6 @@ export class OxDebugSession extends LoggingDebugSession {
 
 
 	protected evaluateRequest(response: DebugProtocol.EvaluateResponse, args: DebugProtocol.EvaluateArguments): void {
-		// const [threadId, level] = this.frameIdToThreadAndLevel(args.frameId);
 		this.sendUserInput(args.expression).then(output => {
 			if (typeof output == "undefined")
 				response.body = {
@@ -754,28 +752,28 @@ export class OxDebugSession extends LoggingDebugSession {
 			return vari;
 
 		}
-		
-		
+
+
 		const lintRegex2 = /(^\d+)\s([\S]+?)\s+(.*)/g
 		match = lintRegex2.exec(lines.trim());
-			/*	
+		/*	if no value displayed :
 
-			3 values[2]               array  
-			
-			
-			parsed as: 
-			0: 3 values[2]               array
-			1: 3
-			2: values[2]
-			3: array
-			*/
+		3 values[2]               array  
+		
+		
+		parsed as: 
+		0: 3 values[2]               array
+		1: 3
+		2: values[2]
+		3: array
+		*/
 		if (match != null) {
 			let value: string = "";
 			var ID = Number(match[1]);
 			var name = String(match[2]).trim();
 			var type = String(match[3]).trim();
 			name += " (" + type + ")";
-			value =""; // no value
+			value = ""; // no value
 			var vari = {
 				local: islocal,
 				name: name,
@@ -786,7 +784,7 @@ export class OxDebugSession extends LoggingDebugSession {
 			return vari;
 
 		}
-		
+
 		return null;
 	}
 
@@ -990,7 +988,7 @@ export class OxDebugSession extends LoggingDebugSession {
 			this.AcceptSameBreak = true;
 			this.sendCommandToOx("step").then((info) => { // #step in
 				resolve(info.lines[0].code === OxDebugCodeLine.Running);
-			 
+
 			}, () => { debugger; reject; });
 		});
 	}
@@ -1043,128 +1041,6 @@ export class OxDebugSession extends LoggingDebugSession {
 	}
 
 
-	//#region NotUsed
-
-	// protected stepBackRequest(response: DebugProtocol.StepBackResponse, args: DebugProtocol.StepBackArguments): void {
-	// 	this._runtime.step(true);
-	// 	this.sendResponse(response);
-	// }
-
-	// protected evaluateRequest(response: DebugProtocol.EvaluateResponse, args: DebugProtocol.EvaluateArguments): void {
-
-	// 	let reply: string | undefined = undefined;
-
-	// 	if (args.context === 'repl') {
-	// 		// 'evaluate' supports to create and delete breakpoints from the 'repl':
-	// 		const matches = /new +([0-9]+)/.exec(args.expression);
-	// 		if (matches && matches.length === 2) {
-	// 			const mbp = this._runtime.setBreakPoint(this._runtime.sourceFile, this.convertClientLineToDebugger(parseInt(matches[1])));
-	// 			const bp = <DebugProtocol.Breakpoint>new Breakpoint(mbp.verified, this.convertDebuggerLineToClient(mbp.line), undefined, this.createSource(this._runtime.sourceFile));
-	// 			bp.id = mbp.id;
-	// 			this.sendEvent(new BreakpointEvent('new', bp));
-	// 			reply = `breakpoint created`;
-	// 		} else {
-	// 			const matches = /del +([0-9]+)/.exec(args.expression);
-	// 			if (matches && matches.length === 2) {
-	// 				const mbp = this._runtime.clearBreakPoint(this._runtime.sourceFile, this.convertClientLineToDebugger(parseInt(matches[1])));
-	// 				if (mbp) {
-	// 					const bp = <DebugProtocol.Breakpoint>new Breakpoint(false);
-	// 					bp.id = mbp.id;
-	// 					this.sendEvent(new BreakpointEvent('removed', bp));
-	// 					reply = `breakpoint deleted`;
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-
-	// 	response.body = {
-	// 		result: reply ? reply : `evaluate(context: '${args.context}', '${args.expression}')`,
-	// 		variablesReference: 0
-	// 	};
-	// 	this.sendResponse(response);
-	// }
-
-	// protected dataBreakpointInfoRequest(response: DebugProtocol.DataBreakpointInfoResponse, args: DebugProtocol.DataBreakpointInfoArguments): void {
-
-	// 	response.body = {
-	// 		dataId: null,
-	// 		description: "cannot break on data access",
-	// 		accessTypes: undefined,
-	// 		canPersist: false
-	// 	};
-
-	// 	if (args.variablesReference && args.name) {
-	// 		const id = this._variableHandles.get(args.variablesReference);
-	// 		if (id.startsWith("global_")) {
-	// 			response.body.dataId = args.name;
-	// 			response.body.description = args.name;
-	// 			response.body.accessTypes = ["read"];
-	// 			response.body.canPersist = false;
-	// 		}
-	// 	}
-
-	// 	this.sendResponse(response);
-	// }
-
-
-	// protected setDataBreakpointsRequest(response: DebugProtocol.SetDataBreakpointsResponse, args: DebugProtocol.SetDataBreakpointsArguments): void {
-	// 	/*
-	// 	Replaces all existing data breakpoints with new data breakpoints.
-	// 	To clear all data breakpoints, specify an empty array.
-	// 	When a data breakpoint is hit, a ‘stopped’ event (with reason ‘data breakpoint’) is generated.
-	// 	*/
-	// 	// clear all data breakpoints
-	// 	this._runtime.clearAllDataBreakpoints();
-
-	// 	response.body = {
-	// 		breakpoints: []
-	// 	};
-
-	// 	for (let dbp of args.breakpoints) {
-	// 		// assume that id is the "address" to break on
-	// 		const ok = this._runtime.setDataBreakpoint(dbp);
-	// 		response.body.breakpoints.push({
-	// 			verified: ok
-	// 		});
-	// 	}
-
-	// 	this.sendResponse(response);
-	// }
-
-	// protected completionsRequest(response: DebugProtocol.CompletionsResponse, args: DebugProtocol.CompletionsArguments): void {
-
-	// 	response.body = {
-	// 		targets: [
-	// 			{
-	// 				label: "item 10",
-	// 				sortText: "10"
-	// 			},
-	// 			{
-	// 				label: "item 1",
-	// 				sortText: "01"
-	// 			},
-	// 			{
-	// 				label: "item 2",
-	// 				sortText: "02"
-	// 			}
-	// 		]
-	// 	};
-	// 	this.sendResponse(response);
-	// }
-
-	// protected cancelRequest(response: DebugProtocol.CancelResponse, args: DebugProtocol.CancelArguments) {
-	// 	if (args.requestId) {
-	// 		this._cancelationTokens.set(args.requestId, true);
-	// 	}
-	// }
-
-	//---- helpers
-
-	// private createSource(filePath: string): Source {
-	// 	return new Source(basename(filePath), this.convertDebuggerPathToClient(filePath), undefined, undefined, 'mock-adapter-data');
-	// }
-
-	//#endregion
 }
 
 

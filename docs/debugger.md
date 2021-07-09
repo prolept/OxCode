@@ -9,7 +9,7 @@ First, please read [Debugging](https://code.visualstudio.com/docs/editor/debuggi
 
 Requirements: OxMetrics 9 is required. 
 
-A launch.json file has to been created in order to debug an ox file. 
+A launch.json file has to be created in order to debug an ox file. 
 
 To create it: click the *create a launch.json* file link in the Run start view and select *Ox Debugger*
 

@@ -99,7 +99,7 @@ export function initPaths(oxmetricsFolder: string): boolean {
             // s_oxRunFullPath = path.resolve(oxmetricsFolder, './ox/bin64/OxRun.exe'); // C:\Program Files\OxMetrics8\ox\bin64\oxrun.exe
 
             if(s_IsOx9Plus)
-                 s_oxmetricsFullPath = path.resolve(oxmetricsFolder, './ox/oxmetrics.exe'); 
+                 s_oxmetricsFullPath = path.resolve(oxmetricsFolder, './oxmetrics.exe'); 
             else
                 s_oxmetricsFullPath = path.resolve(oxmetricsFolder, './bin64/oxmetrics.exe'); //C:\Program Files\OxMetrics8\bin64\oxmetrics.exe
 

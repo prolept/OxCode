@@ -7,7 +7,7 @@ import * as path from 'path';
 import * as cp from 'child_process'
 import { commands, Diagnostic, workspace, DiagnosticSeverity, languages, Position, Range, Uri, window, Disposable } from "vscode";
 import { byteOffsetAt, OxIssue, IsCorrectOxFile, getWorkspaceFolderPath, DevLog } from './util';
-import { GetOxLinter, GetOxlPath, quoteFileName } from './OxBin';
+import { GetOxLinter, GetOxlPath, IsWindows, quoteFileName } from './OxBin';
 
 
 let StatusBarOxRunning: vscode.StatusBarItem;
@@ -206,6 +206,8 @@ export default class CodeManager {
             this._terminal = vscode.window.createTerminal("OxOutput");
 
         }
+        if(IsWindows)
+            command = "& " + command ; // for powershell 
         this._terminal.show(true);
         this._terminal.sendText(command);
     }
@@ -224,7 +226,7 @@ export default class CodeManager {
             slink = " -cl ";
         else
             slink = " -c ";
-        var command = quoteFileName(oxlPath) + slink + " -v1 " + vscode.window.activeTextEditor.document.fileName;
+        var command = quoteFileName(oxlPath) + slink + " -v1 " + quoteFileName(vscode.window.activeTextEditor.document.fileName);
         this.SetOxRunning(true);
         this._outputChannel.show(true);
         const exec = require("child_process").exec;
