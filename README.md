@@ -204,7 +204,7 @@ This extension contributes the following settings:
  - Does this extension use any online services? 
     - No, this extension is self contained. It doesn't use any telemetry services.
  - How to report a bug  ?
-    - via the github repository. If you can fix it, feel free to send us pull requests. However, please note that the command-line executable is a closed-source software.
+    - via the github repository. If you can fix it, feel free to send us pull requests.
  - Does this extension support prior version of OxMetrics ? 
     - It has not been tested, but it should work.
  - How to request a feature ?

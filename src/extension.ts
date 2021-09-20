@@ -42,7 +42,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 
     const providerInclude = new OxIncludeCompletionItemProvider(GetOxIncludeFolders());
-
+    
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider(OX_SELECTOR, providerInclude, "<", '"', "/", "\\"));
     context.subscriptions.push(workspace.onDidSaveTextDocument(document => SymbolProvider.ClearCacheForAFile(document)));
     context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(OX_MODE, SymbolProvider));
