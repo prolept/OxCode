@@ -257,6 +257,7 @@ This extension contributes the following settings:
 ## Known Issues 
 
  - `Format Document` doesn't work properly when the ox file contains a nested comment. 
+ - Syntax highlighting doesn't work with text enclosed between backticks.
 
 ## Licence 
 
